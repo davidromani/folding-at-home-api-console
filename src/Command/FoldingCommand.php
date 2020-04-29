@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Manager\FoldingApiManager;
 use App\Model\FoldingTeamAccount;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -31,7 +32,9 @@ class FoldingCommand extends Command
     {
         $this
             ->setDescription('Get team stats')
-            ->setHelp('Show a detailed view of current Folding@Home team stats.');
+            ->setHelp('Show a detailed view of current Folding@Home team stats.')
+            ->addArgument('id', InputArgument::OPTIONAL, 'The Folding@Home team number.')
+        ;
     }
 
     /**
@@ -45,7 +48,7 @@ class FoldingCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeLn('Total current Folding@Home teams amount: '.$this->fcm->getCurrentTotalTeams());
-        $team = $this->fcm->getFoldingTeamById();
+        $team = $this->fcm->getFoldingTeamById($input->getArgument('id'));
         $output->writeLn($team);
         if (count($team->getAccounts()) > 0) {
             $output->writeln('Accounts:');

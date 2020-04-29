@@ -11,7 +11,7 @@ class FoldingTeam
     private ?string $logo;
     private int $score;
     private int $wus;
-    private int $rank;
+    private ?int $rank;
     private ?array $accounts;
 
     /**
@@ -164,19 +164,19 @@ class FoldingTeam
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getRank(): int
+    public function getRank(): ?int
     {
         return $this->rank;
     }
 
     /**
-     * @param int $rank
+     * @param int|null $rank
      *
      * @return $this
      */
-    public function setRank(int $rank): FoldingTeam
+    public function setRank(?int $rank): FoldingTeam
     {
         $this->rank = $rank;
 
