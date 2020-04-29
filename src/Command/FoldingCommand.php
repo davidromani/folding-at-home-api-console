@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Manager\FoldingTeamsApiManager;
-use App\Model\FoldingTeamAccount;
+use App\Model\FoldingTeamMemberAccount;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -50,11 +50,11 @@ class FoldingCommand extends Command
         $output->writeLn('Total current Folding@Home teams amount: '.$this->fcm->getCurrentTotalTeams());
         $team = $this->fcm->getFoldingTeamById($input->getArgument('id'));
         $output->writeLn($team);
-        if (count($team->getAccounts()) > 0) {
-            $output->writeln('Accounts:');
-            /** @var FoldingTeamAccount $account */
-            foreach ($team->getAccounts() as $account) {
-                $output->writeLn($account);
+        if (count($team->getMemberAccounts()) > 0) {
+            $output->writeln('Team member accounts:');
+            /** @var FoldingTeamMemberAccount $teamMemberAccount */
+            foreach ($team->getMemberAccounts() as $teamMemberAccount) {
+                $output->writeLn($teamMemberAccount);
             }
         }
 

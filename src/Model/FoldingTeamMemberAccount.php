@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-class FoldingTeamAccount
+class FoldingTeamMemberAccount
 {
     private ?FoldingTeam $team;
     private int $id;
@@ -33,7 +33,7 @@ class FoldingTeamAccount
      *
      * @return $this
      */
-    public function setTeam(?FoldingTeam $team): FoldingTeamAccount
+    public function setTeam(?FoldingTeam $team): FoldingTeamMemberAccount
     {
         $this->team = $team;
 
@@ -53,7 +53,7 @@ class FoldingTeamAccount
      *
      * @return $this
      */
-    public function setId(int $id): FoldingTeamAccount
+    public function setId(int $id): FoldingTeamMemberAccount
     {
         $this->id = $id;
 
@@ -73,7 +73,7 @@ class FoldingTeamAccount
      *
      * @return $this
      */
-    public function setName(string $name): FoldingTeamAccount
+    public function setName(string $name): FoldingTeamMemberAccount
     {
         $this->name = $name;
 
@@ -93,7 +93,7 @@ class FoldingTeamAccount
      *
      * @return $this
      */
-    public function setScore(int $score): FoldingTeamAccount
+    public function setScore(int $score): FoldingTeamMemberAccount
     {
         $this->score = $score;
 
@@ -113,7 +113,7 @@ class FoldingTeamAccount
      *
      * @return $this
      */
-    public function setWus(int $wus): FoldingTeamAccount
+    public function setWus(int $wus): FoldingTeamMemberAccount
     {
         $this->wus = $wus;
 
@@ -133,7 +133,7 @@ class FoldingTeamAccount
      *
      * @return $this
      */
-    public function setRank(?int $rank): FoldingTeamAccount
+    public function setRank(?int $rank): FoldingTeamMemberAccount
     {
         $this->rank = $rank;
 

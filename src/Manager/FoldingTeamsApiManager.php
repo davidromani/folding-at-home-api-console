@@ -3,7 +3,7 @@
 namespace App\Manager;
 
 use App\Model\FoldingTeam;
-use App\Model\FoldingTeamAccount;
+use App\Model\FoldingTeamMemberAccount;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -101,11 +101,11 @@ class FoldingTeamsApiManager
                     AbstractNormalizer::OBJECT_TO_POPULATE => $result,
                 ]
             );
-            $accounts = $this->getFoldingTeamAccountsByTeamId($this->getTeamIdString($id));
-            if (count($accounts) > 0) {
-                /** @var FoldingTeamAccount $account */
-                foreach ($accounts as $account) {
-                    $result->addAccount($account);
+            $teamMemberAccounts = $this->getFoldingTeamMemberAccountsByTeamId($this->getTeamIdString($id));
+            if (count($teamMemberAccounts) > 0) {
+                /** @var FoldingTeamMemberAccount $teamMemberAccount */
+                foreach ($teamMemberAccounts as $teamMemberAccount) {
+                    $result->addMemberAccount($teamMemberAccount);
                 }
             }
         } catch (TransportExceptionInterface $exception) {
@@ -134,7 +134,7 @@ class FoldingTeamsApiManager
      * @throws ServerExceptionInterface
      * @throws DecodingExceptionInterface
      */
-    public function getFoldingTeamAccountsByTeamIdHttpContentResponse(?int $id = null): array
+    public function getFoldingTeamMemberAccountsByTeamIdHttpContentResponse(?int $id = null): array
     {
         return $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id).'/members')->toArray(false);
     }
@@ -146,23 +146,23 @@ class FoldingTeamsApiManager
      *
      * @return array
      */
-    public function getFoldingTeamAccountsByTeamId(?int $id = null): array
+    public function getFoldingTeamMemberAccountsByTeamId(?int $id = null): array
     {
         $result = [];
         try {
-            $response = $this->getFoldingTeamAccountsByTeamIdHttpContentResponse($this->getTeamIdString($id));
+            $response = $this->getFoldingTeamMemberAccountsByTeamIdHttpContentResponse($this->getTeamIdString($id));
             /** @var array $item */
             foreach ($response as $item) {
                 if (is_string($item[0]) && is_int($item[1]) && (is_null($item[2]) || is_int($item[2])) && is_int($item[3]) && is_int($item[4])) {
-                    $account = new FoldingTeamAccount();
-                    $account
+                    $teamMemberAccount = new FoldingTeamMemberAccount();
+                    $teamMemberAccount
                         ->setName($item[0])
                         ->setId($item[1])
                         ->setRank($item[2])
                         ->setScore($item[3])
                         ->setWus($item[4])
                     ;
-                    $result[] = $account;
+                    $result[] = $teamMemberAccount;
                 }
             }
         } catch (DecodingExceptionInterface $exception) {
