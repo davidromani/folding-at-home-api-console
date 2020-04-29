@@ -10,11 +10,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FoldingCommand extends Command
 {
     protected static $defaultName = 'app:test';
-
     private FoldingCrawlerManager $fcm;
 
     /**
      * Constructor
+     *
+     * @param FoldingCrawlerManager $fcm
      */
     public function __construct(FoldingCrawlerManager $fcm)
     {
@@ -31,7 +32,7 @@ class FoldingCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeLn($this->fcm->getGreetingsMsg());
+        $output->writeLn($this->fcm->getCurrentTotalTeams());
 
         return 1;
     }
