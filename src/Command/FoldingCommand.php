@@ -13,7 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FoldingCommand extends Command
 {
-    protected static $defaultName = 'app:get:team:stats';
+    protected static $defaultName = 'folding:get:team:stats';
+
     private FoldingTeamsApiManager $fcm;
     private int $foldingTeamNumber;
 
@@ -21,12 +22,11 @@ class FoldingCommand extends Command
      * Constructor
      *
      * @param FoldingTeamsApiManager $fcm
-     * @param int $foldingTeamNumber
      */
-    public function __construct(FoldingTeamsApiManager $fcm, int $foldingTeamNumber)
+    public function __construct(FoldingTeamsApiManager $fcm)
     {
         $this->fcm = $fcm;
-        $this->foldingTeamNumber = $foldingTeamNumber;
+        $this->foldingTeamNumber = $fcm->getFoldingTeamNumber();
         parent::__construct();
     }
 

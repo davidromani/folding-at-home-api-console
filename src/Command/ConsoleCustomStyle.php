@@ -71,7 +71,7 @@ class ConsoleCustomStyle extends SymfonyStyle implements StyleInterface
      */
     public function text($message)
     {
-        $messages = \is_array($message) ? array_values($message) : [$message];
+        $messages = is_array($message) ? array_values($message) : [$message];
         foreach ($messages as $message) {
             $this->writeln(sprintf('<comment>%s</comment>', $message));
         }
