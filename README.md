@@ -20,12 +20,12 @@ $ composer install
 
 #### Edit environment config 
 
-Remember to edit `.env` config file according to your system environment needs. Replace `<your_detault_folding_team_number_to_check>` by your team number or 0 (if you don't have).
+Remember to edit `.env` config file according to your system environment needs. Replace `<detault_folding_team_number_to_check>` by your team number or 0 (if you don't have).
 
 ```bash
 $ touch .env
 $ echo "FOLDING_API_URL=https://api.foldingathome.org/" >> .env
-$ echo "FOLDING_TEAM_NUMBER=<your_detault_folding_team_number_to_check>" >> .env
+$ echo "FOLDING_TEAM_NUMBER=<detault_folding_team_number_to_check>" >> .env
 ```
 
 #### Usage
