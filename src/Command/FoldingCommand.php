@@ -44,6 +44,7 @@ class FoldingCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeLn($this->fcm->getTeamByIdNumber());
+        $output->writeLn('Total Folding@Home teams amount: '.$this->fcm->getCurrentTotalTeams());
 
         return 1;
     }

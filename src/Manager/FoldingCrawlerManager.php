@@ -2,8 +2,10 @@
 
 namespace App\Manager;
 
+use App\Model\FoldingTeam;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -13,21 +15,24 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class FoldingCrawlerManager
 {
-    private string $foldingApiUrl;
-    private int    $foldingTeamNumber;
     private CurlHttpClient $httpClient;
+    private SerializerInterface $serializer;
+    private string $foldingApiUrl;
+    private int $foldingTeamNumber;
 
     /**
      * Constructor
      *
+     * @param SerializerInterface $serializer
      * @param string $foldingApiUrl
      * @param int $foldingTeamNumber
      */
-    public function __construct(string $foldingApiUrl, int $foldingTeamNumber)
+    public function __construct(SerializerInterface $serializer, string $foldingApiUrl, int $foldingTeamNumber)
     {
+        $this->httpClient = new CurlHttpClient();
+        $this->serializer = $serializer;
         $this->foldingApiUrl = $foldingApiUrl;
         $this->foldingTeamNumber = $foldingTeamNumber;
-        $this->httpClient = new CurlHttpClient();
     }
 
     /**
@@ -39,17 +44,12 @@ class FoldingCrawlerManager
      */
     public function getTeamByIdNumber(?int $id = null): string
     {
-        $teamNumberString = (string)$this->foldingTeamNumber;
-        if (!is_null($id)) {
-            $teamNumberString = (string)$id;
-        }
-
         try {
 //            $result = implode(
 //                ' · ',
-//                $this->makeFoldingApiHttpServerRequestToEndPoint($teamNumberString)->toArray(false)
+//                $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id))->toArray(false)
 //            );
-            $result = $this->makeFoldingApiHttpServerRequestToEndPoint($teamNumberString)->getContent(false);
+            $result = $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id))->getContent(false);
         } catch (DecodingExceptionInterface $exception) {
             $result = '-1';
         } catch (TransportExceptionInterface $exception) {
@@ -60,6 +60,33 @@ class FoldingCrawlerManager
             $result = '-4';
         } catch (ServerExceptionInterface $e) {
             $result = '-5';
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get Folding@Home team object | or null on API connection error
+     *
+     * @param int|null $id
+     *
+     * @return FoldingTeam|null
+     */
+    public function getFoldingTeamByIdNumber(?int $id = null): ?FoldingTeam
+    {
+        $result = null;
+
+        try {
+            $response = $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id))->getContent(false);
+
+        } catch (TransportExceptionInterface $exception) {
+            $result = null;
+        } catch (ClientExceptionInterface $e) {
+            $result = null;
+        } catch (RedirectionExceptionInterface $e) {
+            $result = null;
+        } catch (ServerExceptionInterface $e) {
+            $result = null;
         }
 
         return $result;
@@ -97,5 +124,20 @@ class FoldingCrawlerManager
     private function makeFoldingApiHttpServerRequestToEndPoint(string $endPoint)
     {
         return $this->httpClient->request(Request::METHOD_GET, $this->foldingApiUrl.$endPoint);
+    }
+
+    /**
+     * @param int|null $id
+     *
+     * @return string
+     */
+    private function getTeamIdString(?int $id = null)
+    {
+        $teamNumberString = (string)$this->foldingTeamNumber;
+        if (!is_null($id)) {
+            $teamNumberString = (string)$id;
+        }
+
+        return $teamNumberString;
     }
 }

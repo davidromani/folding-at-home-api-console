@@ -180,4 +180,12 @@ class FoldingTeam
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return 'ID#'.$this->getId().' · '.$this->getName();
+    }
 }
