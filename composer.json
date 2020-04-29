@@ -1,6 +1,17 @@
 {
-    "type": "project",
-    "license": "proprietary",
+    "name": "davidromani/folding-at-home-api-console",
+    "description": "A command line tool to interact with Folding@Home API project",
+    "type": "library",
+    "keywords": ["symfony", "console", "foldingathome", "php7", "command"],
+    "homepage": "https://www.flux.cat/en/home",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David Romaní",
+            "email": "david@flux.cat",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^7.1.3",
         "ext-ctype": "*",
