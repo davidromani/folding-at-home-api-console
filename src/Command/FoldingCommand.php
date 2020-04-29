@@ -13,8 +13,8 @@ class FoldingCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Testing command outputs.')
-            ->setHelp('This command allows you to know how many cols & rows are in your current terminal window.');
+            ->setDescription('Testing command output.')
+            ->setHelp('Say Hello World command.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
