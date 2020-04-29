@@ -3,21 +3,22 @@
 namespace App\Manager;
 
 use App\Model\FoldingTeam;
+use App\Model\FoldingTeamAccount;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Exception\ExtraAttributesException;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class FoldingCrawlerManager
+class FoldingApiManager
 {
     private CurlHttpClient $httpClient;
     private SerializerInterface $serializer;
@@ -86,8 +87,13 @@ class FoldingCrawlerManager
                     AbstractNormalizer::OBJECT_TO_POPULATE => $result,
                 ]
             );
-        } catch (ExtraAttributesException $exception) {
-            $result = null;
+            $accounts = $this->getFoldingTeamAccountsByTeamIdNumber($id);
+            if (count($accounts) > 0) {
+                /** @var FoldingTeamAccount $account */
+                foreach ($accounts as $account) {
+                    $result->addAccount($account);
+                }
+            }
         } catch (TransportExceptionInterface $exception) {
             $result = null;
         } catch (ClientExceptionInterface $e) {
@@ -118,6 +124,47 @@ class FoldingCrawlerManager
             $result = -7;
         } catch (ServerExceptionInterface $e) {
             $result = -8;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get Folding@Home team accounts array | empty array on API connection error
+     *
+     * @param int|null $id
+     *
+     * @return array
+     */
+    public function getFoldingTeamAccountsByTeamIdNumber(?int $id = null): array
+    {
+        $result = [];
+
+        try {
+            $response = $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id).'/members')->toArray(false);
+            /** @var array $item */
+            foreach ($response as $item) {
+                if (is_string($item[0]) && is_int($item[1]) && !is_null($item[2]) && is_int($item[3]) && is_int($item[4])) {
+                    $account = new FoldingTeamAccount();
+                    $account
+                        ->setName($item[0])
+                        ->setRank($item[2])
+                        ->setScore($item[3])
+                        ->setWus($item[4])
+                    ;
+                    $result[] = $account;
+                }
+            }
+        } catch (DecodingExceptionInterface $exception) {
+            $result = null;
+        } catch (TransportExceptionInterface $exception) {
+            $result = null;
+        } catch (ClientExceptionInterface $e) {
+            $result = null;
+        } catch (RedirectionExceptionInterface $e) {
+            $result = null;
+        } catch (ServerExceptionInterface $e) {
+            $result = null;
         }
 
         return $result;

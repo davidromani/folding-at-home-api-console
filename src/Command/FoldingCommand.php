@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Manager\FoldingCrawlerManager;
+use App\Manager\FoldingApiManager;
 use App\Model\FoldingTeamAccount;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,14 +11,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FoldingCommand extends Command
 {
     protected static $defaultName = 'app:test';
-    private FoldingCrawlerManager $fcm;
+    private FoldingApiManager $fcm;
 
     /**
      * Constructor
      *
-     * @param FoldingCrawlerManager $fcm
+     * @param FoldingApiManager $fcm
      */
-    public function __construct(FoldingCrawlerManager $fcm)
+    public function __construct(FoldingApiManager $fcm)
     {
         $this->fcm = $fcm;
         parent::__construct();
