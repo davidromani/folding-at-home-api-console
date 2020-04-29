@@ -19,6 +19,14 @@ abstract class AbstractBaseFolding extends AbstractBase
     }
 
     /**
+     * @return string
+     */
+    public function getIdString(): string
+    {
+        return AbstractBase::getPrettyFormatValueInString($this->getId());
+    }
+
+    /**
      * @param int $id
      *
      * @return $this
@@ -59,6 +67,14 @@ abstract class AbstractBaseFolding extends AbstractBase
     }
 
     /**
+     * @return string
+     */
+    public function getScoreString(): string
+    {
+        return AbstractBase::getPrettyFormatValueInString($this->getScore());
+    }
+
+    /**
      * @param int $score
      *
      * @return $this
@@ -79,6 +95,14 @@ abstract class AbstractBaseFolding extends AbstractBase
     }
 
     /**
+     * @return string
+     */
+    public function getWusString(): string
+    {
+        return AbstractBase::getPrettyFormatValueInString($this->getWus());
+    }
+
+    /**
      * @param int $wus
      *
      * @return $this
@@ -96,6 +120,14 @@ abstract class AbstractBaseFolding extends AbstractBase
     public function getRank(): ?int
     {
         return $this->rank;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRankString(): string
+    {
+        return AbstractBase::getPrettyFormatValueInString($this->getRank());
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Manager\FoldingTeamsApiManager;
+use App\Model\AbstractBase;
 use App\Model\FoldingTeamMemberAccount;
 use DateTimeImmutable;
 use Symfony\Component\Console\Command\Command;
@@ -55,7 +56,7 @@ class FoldingCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title('Welcome to Folding@Home '.$this->getName().' command line tool');
         $io->section('Total current Folding@Home teams amount');
-        $totalTeamsAmount = $this->fcm->getCurrentTotalTeams();
+        $totalTeamsAmount = AbstractBase::getPrettyFormatValueInString($this->fcm->getCurrentTotalTeams());
         $io->text($totalTeamsAmount);
         $team = $this->fcm->getFoldingTeamById($input->getArgument('id'));
         $io->section('Team report');
@@ -66,9 +67,9 @@ class FoldingCommand extends Command
                     $team->getId(),
                     $team->getName(),
                     count($team->getMemberAccounts()),
-                    $team->getScore(),
-                    $team->getWus(),
-                    $team->getRank() ? $team->getRank().' of '.$totalTeamsAmount : 'unknown',
+                    $team->getScoreString(),
+                    $team->getWusString(),
+                    $team->getRank() ? $team->getRankString().' of '.$totalTeamsAmount : 'unknown',
                 ],
             ]
         );
@@ -80,9 +81,9 @@ class FoldingCommand extends Command
                 $rows[] = [
                     $teamMemberAccount->getId(),
                     $teamMemberAccount->getName(),
-                    $teamMemberAccount->getScore(),
-                    $teamMemberAccount->getWus(),
-                    $teamMemberAccount->getRank() ? $teamMemberAccount->getRank().' of '.$totalTeamsAmount : 'unknown',
+                    $teamMemberAccount->getScoreString(),
+                    $teamMemberAccount->getWusString(),
+                    $teamMemberAccount->getRank() ? $teamMemberAccount->getRankString().' of '.$totalTeamsAmount : 'unknown',
                 ];
             }
             $io->table(
