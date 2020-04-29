@@ -4,6 +4,7 @@ namespace App\Command;
 
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Helper\Helper;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -47,6 +48,22 @@ class ConsoleCustomStyle extends SymfonyStyle implements StyleInterface
             sprintf('<info>%s</info>', OutputFormatter::escapeTrailingBackslash($message)),
             sprintf('<info>%s</info>', str_repeat('-', Helper::strlenWithoutDecoration($this->getFormatter(), $message))),
         ]);
+    }
+
+    /**
+     * @param array $headers
+     * @param array $rows
+     */
+    public function table(array $headers, array $rows)
+    {
+        $style = clone Table::getStyleDefinition('box');
+        $style->setCellHeaderFormat('<info>%s</info>');
+        $style->setCellRowFormat('<comment>%s</comment>');
+        $table = new Table($this);
+        $table->setHeaders($headers);
+        $table->setRows($rows);
+        $table->setStyle($style);
+        $table->render();
     }
 
     /**
