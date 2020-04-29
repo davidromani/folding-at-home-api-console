@@ -3,20 +3,25 @@
 namespace App\Manager;
 
 use Symfony\Component\HttpClient\CurlHttpClient;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class FoldingCrawlerManager
 {
-    private string $foldingCrawlerUrl;
+    private string $foldingApiUrl;
     private int    $foldingTeamNumber;
     private CurlHttpClient $httpClient;
-    private $response;
+    private ResponseInterface $response;
 
     /**
      * Constructor
+     *
+     * @param string $foldingApiUrl
+     * @param int $foldingTeamNumber
      */
-    public function __construct(string $foldingCrawlerUrl, int $foldingTeamNumber)
+    public function __construct(string $foldingApiUrl, int $foldingTeamNumber)
     {
-        $this->foldingCrawlerUrl = $foldingCrawlerUrl;
+        $this->foldingApiUrl = $foldingApiUrl;
         $this->foldingTeamNumber = $foldingTeamNumber;
         $this->httpClient = new CurlHttpClient();
         $this->response = $this->makeFoldingHttpServerRequest();
@@ -26,14 +31,19 @@ class FoldingCrawlerManager
     {
         $result = 'Hello World! ';
         if ($this->response->getStatusCode() == 200) {
-          $result .= $this->response->getContent();
+            $result .= $this->response->getContent();
         }
 
         return $result;
     }
 
+    /**
+     * @return ResponseInterface
+     *
+     * @throws TransportExceptionInterface
+     */
     private function makeFoldingHttpServerRequest()
     {
-      return $this->httpClient->request('GET', $this->foldingCrawlerUrl.$this->foldingTeamNumber);
+        return $this->httpClient->request('GET', $this->foldingApiUrl.$this->foldingTeamNumber);
     }
 }
