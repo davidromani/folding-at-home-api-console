@@ -55,7 +55,8 @@ class FoldingCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title('Welcome to Folding@Home '.$this->getName().' command line tool');
         $io->section('Total current Folding@Home teams amount');
-        $io->text($this->fcm->getCurrentTotalTeams());
+        $totalTeamsAmount = $this->fcm->getCurrentTotalTeams();
+        $io->text($totalTeamsAmount);
         $team = $this->fcm->getFoldingTeamById($input->getArgument('id'));
         $io->section('Team report');
         $io->table(
@@ -67,7 +68,7 @@ class FoldingCommand extends Command
                     count($team->getMemberAccounts()),
                     $team->getScore(),
                     $team->getWus(),
-                    $team->getRank(),
+                    $team->getRank() ? $team->getRank().' of '.$totalTeamsAmount : 'unknown',
                 ],
             ]
         );
@@ -81,7 +82,7 @@ class FoldingCommand extends Command
                     $teamMemberAccount->getName(),
                     $teamMemberAccount->getScore(),
                     $teamMemberAccount->getWus(),
-                    $teamMemberAccount->getRank(),
+                    $teamMemberAccount->getRank() ? $teamMemberAccount->getRank().' of '.$totalTeamsAmount : 'unknown',
                 ];
             }
             $io->table(
