@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FoldingCommand extends Command
 {
-    protected static $defaultName = 'app:test';
+    protected static $defaultName = 'app:get:team:stats';
     private FoldingApiManager $fcm;
 
     /**
@@ -30,8 +30,8 @@ class FoldingCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Testing command output.')
-            ->setHelp('Say Hello World command.');
+            ->setDescription('Get team stats')
+            ->setHelp('Show a detailed view of current Folding@Home team stats.');
     }
 
     /**
@@ -44,10 +44,9 @@ class FoldingCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-//        $output->writeLn('HTTP Response: '.$this->fcm->getTeamByIdNumberHttpContentResponse());
-        $team = $this->fcm->getFoldingTeamByIdNumber();
+        $output->writeLn('Total current Folding@Home teams amount: '.$this->fcm->getCurrentTotalTeams());
+        $team = $this->fcm->getFoldingTeamById();
         $output->writeLn($team);
-        $output->writeLn('Total Folding@Home teams amount: '.$this->fcm->getCurrentTotalTeams());
         if (count($team->getAccounts()) > 0) {
             $output->writeln('Accounts:');
             /** @var FoldingTeamAccount $account */

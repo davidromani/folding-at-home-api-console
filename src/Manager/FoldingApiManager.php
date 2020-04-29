@@ -42,42 +42,56 @@ class FoldingApiManager
     }
 
     /**
-     * Get Folding@Home team | or negative string on API connection error
+     * Get Folding@Home current total teams amount | negative number on API connection error
      *
-     * @param int|null $id
-     *
-     * @return string
+     * @return int
      */
-    public function getTeamByIdNumberHttpContentResponse(?int $id = null): string
+    public function getCurrentTotalTeams(): int
     {
         try {
-            $result = $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id))->getContent(false);
+            $result = intval($this->makeFoldingApiHttpServerRequestToEndPoint('count')->getContent());
         } catch (TransportExceptionInterface $exception) {
-            $result = '-1';
+            $result = -1;
         } catch (ClientExceptionInterface $e) {
-            $result = '-2';
+            $result = -2;
         } catch (RedirectionExceptionInterface $e) {
-            $result = '-3';
+            $result = -3;
         } catch (ServerExceptionInterface $e) {
-            $result = '-4';
+            $result = -4;
         }
 
         return $result;
     }
 
     /**
-     * Get Folding@Home team object | or null on API connection error
+     * Get Folding@Home team HTTP content response
+     *
+     * @param int|null $id
+     *
+     * @return string
+     *
+     * @throws TransportExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     */
+    public function getFoldingTeamByIdHttpContentResponse(?int $id = null): string
+    {
+        return $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id))->getContent(false);
+    }
+
+    /**
+     * Get Folding@Home team object | null on API connection error
      *
      * @param int|null $id
      *
      * @return FoldingTeam|null
      */
-    public function getFoldingTeamByIdNumber(?int $id = null): ?FoldingTeam
+    public function getFoldingTeamById(?int $id = null): ?FoldingTeam
     {
         $result = null;
-
         try {
-            $response = $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id))->getContent(false);
+            $response = $this->getFoldingTeamByIdHttpContentResponse($this->getTeamIdString($id));
             $result = new FoldingTeam();
             $this->serializer->deserialize(
                 $response,
@@ -87,7 +101,7 @@ class FoldingApiManager
                     AbstractNormalizer::OBJECT_TO_POPULATE => $result,
                 ]
             );
-            $accounts = $this->getFoldingTeamAccountsByTeamIdNumber($id);
+            $accounts = $this->getFoldingTeamAccountsByTeamId($this->getTeamIdString($id));
             if (count($accounts) > 0) {
                 /** @var FoldingTeamAccount $account */
                 foreach ($accounts as $account) {
@@ -108,25 +122,21 @@ class FoldingApiManager
     }
 
     /**
-     * Get Folding@Home current teams amount | or negative number on API connection error
+     * Get Folding@Home team accounts array HTTP content response
      *
-     * @return int
+     * @param int|null $id
+     *
+     * @return array
+     *
+     * @throws TransportExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws DecodingExceptionInterface
      */
-    public function getCurrentTotalTeams(): int
+    public function getFoldingTeamAccountsByTeamIdHttpContentResponse(?int $id = null): array
     {
-        try {
-            $result = intval($this->makeFoldingApiHttpServerRequestToEndPoint('count')->getContent());
-        } catch (TransportExceptionInterface $exception) {
-            $result = -5;
-        } catch (ClientExceptionInterface $e) {
-            $result = -6;
-        } catch (RedirectionExceptionInterface $e) {
-            $result = -7;
-        } catch (ServerExceptionInterface $e) {
-            $result = -8;
-        }
-
-        return $result;
+        return $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id).'/members')->toArray(false);
     }
 
     /**
@@ -136,18 +146,18 @@ class FoldingApiManager
      *
      * @return array
      */
-    public function getFoldingTeamAccountsByTeamIdNumber(?int $id = null): array
+    public function getFoldingTeamAccountsByTeamId(?int $id = null): array
     {
         $result = [];
-
         try {
-            $response = $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id).'/members')->toArray(false);
+            $response = $this->getFoldingTeamAccountsByTeamIdHttpContentResponse($this->getTeamIdString($id));
             /** @var array $item */
             foreach ($response as $item) {
-                if (is_string($item[0]) && is_int($item[1]) && !is_null($item[2]) && is_int($item[3]) && is_int($item[4])) {
+                if (is_string($item[0]) && is_int($item[1]) && (is_null($item[2]) || is_int($item[2])) && is_int($item[3]) && is_int($item[4])) {
                     $account = new FoldingTeamAccount();
                     $account
                         ->setName($item[0])
+                        ->setId($item[1])
                         ->setRank($item[2])
                         ->setScore($item[3])
                         ->setWus($item[4])
