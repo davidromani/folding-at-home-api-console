@@ -5,7 +5,7 @@ A Symfony 4.4 LTS console command to interact with [Folding@Home](https://foldin
 
 ## Installation requirements
 
-* PHP 7.4 (or higher)
+* PHP 7.4
 * Composer 1.10
 
 ## Installation instructions
