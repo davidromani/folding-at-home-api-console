@@ -6,11 +6,12 @@ use App\Model\FoldingTeam;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\ExtraAttributesException;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -46,24 +47,18 @@ class FoldingCrawlerManager
      *
      * @return string
      */
-    public function getTeamByIdNumber(?int $id = null): string
+    public function getTeamByIdNumberHttpContentResponse(?int $id = null): string
     {
         try {
-//            $result = implode(
-//                ' · ',
-//                $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id))->toArray(false)
-//            );
             $result = $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id))->getContent(false);
-        } catch (DecodingExceptionInterface $exception) {
-            $result = '-1';
         } catch (TransportExceptionInterface $exception) {
-            $result = '-2';
+            $result = '-1';
         } catch (ClientExceptionInterface $e) {
-            $result = '-3';
+            $result = '-2';
         } catch (RedirectionExceptionInterface $e) {
-            $result = '-4';
+            $result = '-3';
         } catch (ServerExceptionInterface $e) {
-            $result = '-5';
+            $result = '-4';
         }
 
         return $result;
@@ -82,7 +77,17 @@ class FoldingCrawlerManager
 
         try {
             $response = $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id))->getContent(false);
-            $result = $this->serializer->deserialize($response, FoldingTeam::class, 'json');
+            $result = new FoldingTeam();
+            $this->serializer->deserialize(
+                $response,
+                FoldingTeam::class,
+                'json',
+                [
+                    AbstractNormalizer::OBJECT_TO_POPULATE => $result,
+                ]
+            );
+        } catch (ExtraAttributesException $exception) {
+            $result = null;
         } catch (TransportExceptionInterface $exception) {
             $result = null;
         } catch (ClientExceptionInterface $e) {
@@ -106,13 +111,13 @@ class FoldingCrawlerManager
         try {
             $result = intval($this->makeFoldingApiHttpServerRequestToEndPoint('count')->getContent());
         } catch (TransportExceptionInterface $exception) {
-            $result = -6;
+            $result = -5;
         } catch (ClientExceptionInterface $e) {
-            $result = -7;
+            $result = -6;
         } catch (RedirectionExceptionInterface $e) {
-            $result = -8;
+            $result = -7;
         } catch (ServerExceptionInterface $e) {
-            $result = -9;
+            $result = -8;
         }
 
         return $result;
