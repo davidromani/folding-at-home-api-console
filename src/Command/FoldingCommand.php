@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Manager\FoldingCrawlerManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -9,6 +10,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FoldingCommand extends Command
 {
     protected static $defaultName = 'app:test';
+
+    private FoldingCrawlerManager $fcm;
+
+    /**
+     * Constructor
+     */
+    public function __construct(FoldingCrawlerManager $fcm)
+    {
+        $this->fcm = $fcm;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -19,7 +31,7 @@ class FoldingCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeLn('Hello World!');
+        $output->writeLn($this->fcm->getGreetingsMsg());
 
         return 1;
     }
