@@ -5,6 +5,9 @@ namespace App\Manager;
 use App\Model\FoldingTeam;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
@@ -23,16 +26,17 @@ class FoldingCrawlerManager
     /**
      * Constructor
      *
-     * @param SerializerInterface $serializer
      * @param string $foldingApiUrl
      * @param int $foldingTeamNumber
      */
-    public function __construct(SerializerInterface $serializer, string $foldingApiUrl, int $foldingTeamNumber)
+    public function __construct(string $foldingApiUrl, int $foldingTeamNumber)
     {
-        $this->httpClient = new CurlHttpClient();
-        $this->serializer = $serializer;
         $this->foldingApiUrl = $foldingApiUrl;
         $this->foldingTeamNumber = $foldingTeamNumber;
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $this->serializer = new Serializer($normalizers, $encoders);
+        $this->httpClient = new CurlHttpClient();
     }
 
     /**
@@ -78,7 +82,7 @@ class FoldingCrawlerManager
 
         try {
             $response = $this->makeFoldingApiHttpServerRequestToEndPoint($this->getTeamIdString($id))->getContent(false);
-
+            $result = $this->serializer->deserialize($response, FoldingTeam::class, 'json');
         } catch (TransportExceptionInterface $exception) {
             $result = null;
         } catch (ClientExceptionInterface $e) {

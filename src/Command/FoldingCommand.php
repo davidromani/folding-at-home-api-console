@@ -43,7 +43,8 @@ class FoldingCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeLn($this->fcm->getTeamByIdNumber());
+        $output->writeLn('HTTP Response: '.$this->fcm->getTeamByIdNumber());
+        $output->writeLn('Deserialize object: '.$this->fcm->getFoldingTeamByIdNumber());
         $output->writeLn('Total Folding@Home teams amount: '.$this->fcm->getCurrentTotalTeams());
 
         return 1;

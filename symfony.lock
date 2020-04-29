@@ -1,33 +1,9 @@
 {
-    "doctrine/annotations": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "a2759dd6123694c8d901d0ec80006e044c2e6457"
-        },
-        "files": [
-            "config/routes/annotations.yaml"
-        ]
-    },
-    "doctrine/lexer": {
-        "version": "1.2.0"
-    },
     "monolog/monolog": {
         "version": "1.25.3"
     },
     "php": {
         "version": "7.4"
-    },
-    "phpdocumentor/reflection-common": {
-        "version": "2.1.0"
-    },
-    "phpdocumentor/reflection-docblock": {
-        "version": "5.1.0"
-    },
-    "phpdocumentor/type-resolver": {
-        "version": "1.1.0"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -64,9 +40,6 @@
         "version": "v4.4.8"
     },
     "symfony/dependency-injection": {
-        "version": "v4.4.8"
-    },
-    "symfony/dom-crawler": {
         "version": "v4.4.8"
     },
     "symfony/dotenv": {
@@ -169,9 +142,6 @@
     "symfony/property-access": {
         "version": "v4.4.8"
     },
-    "symfony/property-info": {
-        "version": "v4.4.8"
-    },
     "symfony/routing": {
         "version": "4.2",
         "recipe": {
@@ -189,9 +159,6 @@
     "symfony/serializer": {
         "version": "v4.4.8"
     },
-    "symfony/serializer-pack": {
-        "version": "v1.0.3"
-    },
     "symfony/service-contracts": {
         "version": "v2.0.1"
     },
@@ -203,8 +170,5 @@
     },
     "symfony/yaml": {
         "version": "v4.4.8"
-    },
-    "webmozart/assert": {
-        "version": "1.8.0"
     }
 }
