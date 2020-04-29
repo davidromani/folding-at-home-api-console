@@ -32,7 +32,7 @@ class FoldingCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeLn($this->fcm->getCurrentTotalTeams());
+        $output->writeLn($this->fcm->getTeamByIdNumber());
 
         return 1;
     }

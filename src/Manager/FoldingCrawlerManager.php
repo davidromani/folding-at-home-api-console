@@ -5,6 +5,7 @@ namespace App\Manager;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -15,7 +16,6 @@ class FoldingCrawlerManager
     private string $foldingApiUrl;
     private int    $foldingTeamNumber;
     private CurlHttpClient $httpClient;
-    private ResponseInterface $response;
 
     /**
      * Constructor
@@ -28,45 +28,66 @@ class FoldingCrawlerManager
         $this->foldingApiUrl = $foldingApiUrl;
         $this->foldingTeamNumber = $foldingTeamNumber;
         $this->httpClient = new CurlHttpClient();
-        $this->response = $this->makeFoldingHttpServerRequest();
     }
 
-    public function getGreetingsMsg(): string
+    public function getTeamByIdNumber(?int $id = null): string
     {
-        $result = 'Hello World! ';
-        if ($this->response->getStatusCode() == 200) {
-            $result .= $this->response->getContent();
+        $teamNumberString = (string)$this->foldingTeamNumber;
+        if (!is_null($id)) {
+            $teamNumberString = (string)$id;
         }
 
-        return $result;
-    }
-
-    public function getCurrentTotalTeams(): string
-    {
-        $result = 'getCurrentTotalTeams = ';
         try {
-            $response = $this->httpClient->request(Request::METHOD_GET, $this->foldingApiUrl.'count');
-            $result .= $response->getContent();
+            $result = implode(
+                ' · ',
+                $this->makeFoldingApiHttpServerRequestToEndPoint($teamNumberString)->toArray(false)
+            );
+        } catch (DecodingExceptionInterface $exception) {
+            $result = '-1';
         } catch (TransportExceptionInterface $exception) {
-            $result .= '[ERROR] TransportExceptionInterface';
+            $result = '-2';
         } catch (ClientExceptionInterface $e) {
-            $result .= '[ERROR] ClientExceptionInterface';
+            $result = '-3';
         } catch (RedirectionExceptionInterface $e) {
-            $result .= '[ERROR] RedirectionExceptionInterface';
+            $result = '-4';
         } catch (ServerExceptionInterface $e) {
-            $result .= '[ERROR] ServerExceptionInterface';
+            $result = '-5';
         }
 
         return $result;
     }
 
     /**
+     * Get Folding@Home current teams amount | or negative number on API connection error
+     *
+     * @return int
+     */
+    public function getCurrentTotalTeams(): int
+    {
+        try {
+            $result = intval($this->makeFoldingApiHttpServerRequestToEndPoint('count')->getContent());
+        } catch (TransportExceptionInterface $exception) {
+            $result = -6;
+        } catch (ClientExceptionInterface $e) {
+            $result = -7;
+        } catch (RedirectionExceptionInterface $e) {
+            $result = -8;
+        } catch (ServerExceptionInterface $e) {
+            $result = -9;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param string $endPoint
+     *
      * @return ResponseInterface
      *
      * @throws TransportExceptionInterface
      */
-    private function makeFoldingHttpServerRequest()
+    private function makeFoldingApiHttpServerRequestToEndPoint(string $endPoint)
     {
-        return $this->httpClient->request(Request::METHOD_GET, $this->foldingApiUrl.$this->foldingTeamNumber);
+        return $this->httpClient->request(Request::METHOD_GET, $this->foldingApiUrl.$endPoint);
     }
 }
