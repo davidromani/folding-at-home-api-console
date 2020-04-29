@@ -12,6 +12,7 @@ class FoldingTeam
     private int $score;
     private int $wus;
     private int $rank;
+    private ?array $accounts;
 
     /**
      * Constructor
@@ -19,6 +20,7 @@ class FoldingTeam
     public function __construct()
     {
         $this->id = 0;
+        $this->accounts = [];
     }
 
     /**
@@ -182,10 +184,42 @@ class FoldingTeam
     }
 
     /**
+     * @return array|null
+     */
+    public function getAccounts(): ?array
+    {
+        return $this->accounts;
+    }
+
+    /**
+     * @param array|null $accounts
+     *
+     * @return $this
+     */
+    public function setAccounts(?array $accounts): FoldingTeam
+    {
+        $this->accounts = $accounts;
+
+        return $this;
+    }
+
+    /**
+     * @param FoldingTeamAccount $foldingTeamAccount
+     *
+     * @return $this
+     */
+    public function addAccount(FoldingTeamAccount $foldingTeamAccount): FoldingTeam
+    {
+        $this->accounts[] = $foldingTeamAccount;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
-        return 'ID#'.$this->getId().' · '.$this->getName();
+        return 'ID#'.$this->getId().' · '.$this->getName().' · SCORE:'.$this->getScore().' · WUs:'.$this->getWus().' · RANK: '.$this->getRank();
     }
 }
