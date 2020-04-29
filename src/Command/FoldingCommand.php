@@ -23,6 +23,9 @@ class FoldingCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * Configure
+     */
     protected function configure()
     {
         $this
@@ -30,6 +33,14 @@ class FoldingCommand extends Command
             ->setHelp('Say Hello World command.');
     }
 
+    /**
+     * Execute
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     *
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeLn($this->fcm->getTeamByIdNumber());

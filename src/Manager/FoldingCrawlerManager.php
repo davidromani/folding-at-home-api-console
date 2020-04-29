@@ -30,6 +30,13 @@ class FoldingCrawlerManager
         $this->httpClient = new CurlHttpClient();
     }
 
+    /**
+     * Get Folding@Home team | or negative string on API connection error
+     *
+     * @param int|null $id
+     *
+     * @return string
+     */
     public function getTeamByIdNumber(?int $id = null): string
     {
         $teamNumberString = (string)$this->foldingTeamNumber;
@@ -38,10 +45,11 @@ class FoldingCrawlerManager
         }
 
         try {
-            $result = implode(
-                ' · ',
-                $this->makeFoldingApiHttpServerRequestToEndPoint($teamNumberString)->toArray(false)
-            );
+//            $result = implode(
+//                ' · ',
+//                $this->makeFoldingApiHttpServerRequestToEndPoint($teamNumberString)->toArray(false)
+//            );
+            $result = $this->makeFoldingApiHttpServerRequestToEndPoint($teamNumberString)->getContent(false);
         } catch (DecodingExceptionInterface $exception) {
             $result = '-1';
         } catch (TransportExceptionInterface $exception) {
