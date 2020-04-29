@@ -24,7 +24,7 @@ Remember to edit `.env` config file according to your system environment needs. 
 
 ```bash
 $ touch .env
-$ echo "FOLDING_API_URL=https://api.foldingathome.org/team/" >> .env
+$ echo "FOLDING_API_URL=https://api.foldingathome.org/" >> .env
 $ echo "FOLDING_TEAM_NUMBER=<your_detault_folding_team_number_to_check>" >> .env
 ```
 

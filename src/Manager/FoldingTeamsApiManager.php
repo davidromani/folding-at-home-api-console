@@ -18,7 +18,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class FoldingApiManager
+class FoldingTeamsApiManager
 {
     private CurlHttpClient $httpClient;
     private SerializerInterface $serializer;
@@ -33,7 +33,7 @@ class FoldingApiManager
      */
     public function __construct(string $foldingApiUrl, int $foldingTeamNumber)
     {
-        $this->foldingApiUrl = $foldingApiUrl;
+        $this->foldingApiUrl = $foldingApiUrl.'team/';
         $this->foldingTeamNumber = $foldingTeamNumber;
         $encoders = [new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];

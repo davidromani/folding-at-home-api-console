@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Manager\FoldingApiManager;
+use App\Manager\FoldingTeamsApiManager;
 use App\Model\FoldingTeamAccount;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,14 +12,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FoldingCommand extends Command
 {
     protected static $defaultName = 'app:get:team:stats';
-    private FoldingApiManager $fcm;
+    private FoldingTeamsApiManager $fcm;
 
     /**
      * Constructor
      *
-     * @param FoldingApiManager $fcm
+     * @param FoldingTeamsApiManager $fcm
      */
-    public function __construct(FoldingApiManager $fcm)
+    public function __construct(FoldingTeamsApiManager $fcm)
     {
         $this->fcm = $fcm;
         parent::__construct();
