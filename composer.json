@@ -37,14 +37,9 @@
             "App\\Tests\\": "tests/"
         }
     },
-    "prefer-stable": true,
-    "conflict": {
-        "symfony/symfony": "*"
-    },
     "extra": {
-        "symfony": {
-            "allow-contrib": false,
-            "require": "4.4.*"
+        "branch-alias": {
+            "dev-master": "0.0-dev"
         }
     }
 }
