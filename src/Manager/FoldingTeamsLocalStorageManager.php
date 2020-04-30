@@ -4,6 +4,8 @@ namespace App\Manager;
 
 use App\Entity\FoldingTeam;
 use App\Entity\FoldingTeamMemberAccount;
+use App\Entity\FoldingTeamMemberAccountRecord;
+use App\Entity\FoldingTeamRecord;
 use App\Model\FoldingTeam as FoldingTeamModel;
 use App\Model\FoldingTeamMemberAccount as FoldingTeamMemberAccountModel;
 use App\Repository\FoldingTeamRepository;
@@ -61,6 +63,14 @@ class FoldingTeamsLocalStorageManager
                 ->setLogo($team->getLogo())
                 ->setUpdated(new DateTimeImmutable());
             $this->em->persist($entity);
+            $record = new FoldingTeamRecord();
+            $record
+                ->setTeam($entity)
+                ->setScore($entity->getScore())
+                ->setWus($entity->getWus())
+                ->setRank($entity->getRank())
+                ->setRecorded(new DateTimeImmutable());
+            $this->em->persist($record);
             $this->em->flush();
             /** @var FoldingTeamMemberAccountModel $teamMemberAccount */
             foreach ($team->getMemberAccounts() as $teamMemberAccount) {
@@ -80,6 +90,14 @@ class FoldingTeamsLocalStorageManager
                     ->setRank($teamMemberAccount->getRank())
                     ->setUpdated(new DateTimeImmutable());
                 $this->em->persist($memberAccountEntity);
+                $record = new FoldingTeamMemberAccountRecord();
+                $record
+                    ->setTeamMemberAccount($memberAccountEntity)
+                    ->setScore($entity->getScore())
+                    ->setWus($entity->getWus())
+                    ->setRank($entity->getRank())
+                    ->setRecorded(new DateTimeImmutable());
+                $this->em->persist($record);
             }
             $this->em->flush();
 

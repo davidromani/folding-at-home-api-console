@@ -24,3 +24,9 @@ Show team stats by ID number in an output pretty format. Remember to replace `<i
 ```bash
 $ php app.php folding:get:team:stats <id>
 ```
+
+Persist team stats by ID number into a local storage database. Remember to replace `<id>` by a team number or team 0 will be searched.
+
+```bash
+$ php app.php folding:get:team:stats <id> --persist
+```
