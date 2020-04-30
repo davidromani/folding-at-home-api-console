@@ -5,7 +5,8 @@ namespace App\Command;
 use App\Entity\FoldingTeam;
 use App\Manager\FoldingTeamsApiManager;
 use App\Model\AbstractBase;
-use App\Model\FoldingTeamMemberAccount;
+use App\Model\FoldingTeam as FoldingTeamModel;
+use App\Model\FoldingTeamMemberAccount as FoldingTeamMemberAccountModel;
 use App\Repository\FoldingTeamRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
@@ -64,6 +65,7 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
         $io->section('Total current Folding@Home teams amount');
         $totalTeamsAmount = AbstractBase::getPrettyFormatValueInString($this->fcm->getCurrentTotalTeams());
         $io->text($totalTeamsAmount);
+        /** @var FoldingTeamModel $team */
         $team = $this->fcm->getFoldingTeamById($input->getArgument('id'));
         $io->section('Team report');
         $io->table(
@@ -82,7 +84,7 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
         if (count($team->getMemberAccounts()) > 0) {
             $rows = [];
             $io->section('Team member accounts');
-            /** @var FoldingTeamMemberAccount $teamMemberAccount */
+            /** @var FoldingTeamMemberAccountModel $teamMemberAccount */
             foreach ($team->getMemberAccounts() as $teamMemberAccount) {
                 $rows[] = [
                     $teamMemberAccount->getId(),
@@ -98,7 +100,7 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
             );
         }
 
-        if ($input->hasOption('persist')) {
+        if ($input->getOption('persist')) {
             $entity = $this->ftr->searchByFoldingTeamId($team->getId());
             if (is_null($entity)) {
                 $entity = new FoldingTeam();
