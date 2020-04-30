@@ -3,8 +3,11 @@
 namespace App\Manager;
 
 use App\Entity\FoldingTeam;
+use App\Entity\FoldingTeamMemberAccount;
 use App\Model\FoldingTeam as FoldingTeamModel;
+use App\Model\FoldingTeamMemberAccount as FoldingTeamMemberAccountModel;
 use App\Repository\FoldingTeamRepository;
+use App\Repository\FoldingTeamMemberAccountRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
@@ -14,6 +17,7 @@ class FoldingTeamsLocalStorageManager
 {
     private EntityManager $em;
     private FoldingTeamRepository $ftr;
+    private FoldingTeamMemberAccountRepository $ftmar;
 
     /**
      * Methods
@@ -28,6 +32,7 @@ class FoldingTeamsLocalStorageManager
     {
         $this->em = $em;
         $this->ftr = $this->em->getRepository(FoldingTeam::class);
+        $this->ftmar = $this->em->getRepository(FoldingTeamMemberAccount::class);
     }
 
     /**
@@ -57,6 +62,27 @@ class FoldingTeamsLocalStorageManager
                 ->setUpdated(new DateTimeImmutable());
             $this->em->persist($entity);
             $this->em->flush();
+            /** @var FoldingTeamMemberAccountModel $teamMemberAccount */
+            foreach ($team->getMemberAccounts() as $teamMemberAccount) {
+                $memberAccountEntity = $this->ftmar->searchByFoldingTeamId($teamMemberAccount->getId());
+                if (is_null($memberAccountEntity)) {
+                    // is new record
+                    $memberAccountEntity = new FoldingTeamMemberAccount();
+                    $memberAccountEntity->setCreated(new DateTimeImmutable());
+                }
+                // update values
+                $memberAccountEntity
+                    ->setTeam($entity)
+                    ->setFoldingId($teamMemberAccount->getId())
+                    ->setName($teamMemberAccount->getName())
+                    ->setScore($teamMemberAccount->getScore())
+                    ->setWus($teamMemberAccount->getWus())
+                    ->setRank($teamMemberAccount->getRank())
+                    ->setUpdated(new DateTimeImmutable());
+                $this->em->persist($memberAccountEntity);
+            }
+            $this->em->flush();
+
             $result = true;
         } catch (NonUniqueResultException $e) {
             $result = false;
