@@ -4,7 +4,7 @@ namespace App\Model;
 
 abstract class AbstractBaseFolding extends AbstractBase
 {
-    protected int $foldingId;
+    protected int $id;
     protected string $name;
     protected int $score;
     protected int $wus;
@@ -13,17 +13,17 @@ abstract class AbstractBaseFolding extends AbstractBase
     /**
      * @return int
      */
-    public function getFoldingId(): int
+    public function getId(): int
     {
-        return $this->foldingId;
+        return $this->id;
     }
 
     /**
      * @return string
      */
-    public function getFoldingIdString(): string
+    public function getIdString(): string
     {
-        return AbstractBase::getPrettyFormatValueInString($this->getFoldingId());
+        return AbstractBase::getPrettyFormatValueInString($this->getId());
     }
 
     /**
