@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,17 +32,18 @@ class FoldingTeam extends AbstractBaseFolding
     private ?string $logo;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\FoldingTeamMemberAccount", inversedBy="team")
-     * @ORM\JoinColumn(name="member_accounts")
+     * @ORM\OneToMany(targetEntity="App\Entity\FoldingTeamMemberAccount", mappedBy="team", indexBy="member_accounts")
+     *
+     * @var ArrayCollection
      */
-    private ?array $memberAccounts;
+    private $memberAccounts;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->memberAccounts = [];
+        $this->memberAccounts = new ArrayCollection();
     }
 
     /**
@@ -117,7 +119,7 @@ class FoldingTeam extends AbstractBaseFolding
      *
      * @return $this
      */
-    public function setMemberAccounts(?array $memberAccounts): FoldingTeam
+    public function setMemberAccounts($memberAccounts): FoldingTeam
     {
         $this->memberAccounts = $memberAccounts;
 

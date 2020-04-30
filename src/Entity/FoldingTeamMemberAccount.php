@@ -16,7 +16,8 @@ class FoldingTeamMemberAccount extends AbstractBaseFolding
     protected int $foldingId;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\FoldingTeam", mappedBy="memberAccounts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\FoldingTeam", inversedBy="memberAccounts")
+     * @ORM\JoinColumn(name="team_id")
      */
     private ?FoldingTeam $team;
 
