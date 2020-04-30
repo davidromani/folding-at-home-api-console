@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+//use Gedmo\Mapping\Annotation as Gedmo;
 
 abstract class AbstractBase
 {
@@ -99,9 +99,10 @@ abstract class AbstractBase
      * Get an integer value in a pretty format string
      *
      * @param int|null $value
+     *
      * @return string
      */
-    public static function getPrettyFormatValueInString(?int $value) : string
+    public static function getPrettyFormatValueInString(?int $value): string
     {
         $result = '0';
         if ($value) {

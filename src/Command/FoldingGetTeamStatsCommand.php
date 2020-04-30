@@ -4,10 +4,10 @@ namespace App\Command;
 
 use App\Entity\FoldingTeam;
 use App\Manager\FoldingTeamsApiManager;
+use App\Manager\FoldingTeamsLocalStorageManager;
 use App\Model\AbstractBase;
 use App\Model\FoldingTeam as FoldingTeamModel;
 use App\Model\FoldingTeamMemberAccount as FoldingTeamMemberAccountModel;
-use App\Repository\FoldingTeamRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FoldingGetTeamStatsCommand extends AbstractBaseCommand
 {
     protected static $defaultName = 'folding:get:team:stats';
-    private ?FoldingTeamRepository $ftr;
+    private FoldingTeamsLocalStorageManager $ftlsm;
     private int $foldingTeamNumber;
 
     /**
@@ -27,10 +27,10 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
      * @param FoldingTeamsApiManager     $fcm
      * @param EntityManager|null         $em
      */
-    public function __construct(FoldingTeamsApiManager $fcm, ?EntityManager $em)
+    public function __construct(FoldingTeamsApiManager $fcm, EntityManager $em)
     {
         parent::__construct($fcm, $em);
-        $this->ftr = $this->em->getRepository(FoldingTeam::class);
+        $this->ftlsm = new FoldingTeamsLocalStorageManager($em);
         $this->foldingTeamNumber = $fcm->getFoldingTeamNumber();
     }
 
@@ -101,26 +101,13 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
         }
 
         if ($input->getOption('persist')) {
-            $entity = $this->ftr->searchByFoldingTeamId($team->getId());
-            if (is_null($entity)) {
-                $entity = new FoldingTeam();
-                $entity->setCreated(new DateTimeImmutable());
-            }
-            $entity
-                ->setFoldingId($team->getId())
-                ->setName($team->getName())
-                ->setScore($team->getScore())
-                ->setWus($team->getWus())
-                ->setRank($team->getRank())
-                ->setFounder($team->getFounder())
-                ->setUrl($team->getUrl())
-                ->setLogo($team->getLogo())
-                ->setUpdated(new DateTimeImmutable())
-            ;
-            $this->em->persist($entity);
-            $this->em->flush();
-        }
+            $isPersistedOrUpdated = $this->ftlsm->persistFoldingTeam($team);
+            if (!$isPersistedOrUpdated) {
+                $io->error('No data persisted in local storage');
 
+                return 0;
+            }
+        }
         $now = new DateTimeImmutable();
         $io->success('Reported data status at '.$now->format('d/m/Y H:i'));
 

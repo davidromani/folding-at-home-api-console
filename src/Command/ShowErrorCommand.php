@@ -11,6 +11,10 @@ class ShowErrorCommand extends AbstractBaseCommand
     private string   $errorMessage;
 
     /**
+     * Methods
+     */
+
+    /**
      * Constructor
      *
      * @param string $errorMessage

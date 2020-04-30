@@ -10,7 +10,7 @@ abstract class AbstractBase
      * @param int|null $value
      * @return string
      */
-    public static function getPrettyFormatValueInString(?int $value) : string
+    public static function getPrettyFormatValueInString(?int $value): string
     {
         $result = '0';
         if ($value) {

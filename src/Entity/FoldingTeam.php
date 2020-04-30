@@ -39,6 +39,10 @@ class FoldingTeam extends AbstractBaseFolding
     private $memberAccounts;
 
     /**
+     * Methods
+     */
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -107,7 +111,7 @@ class FoldingTeam extends AbstractBaseFolding
     }
 
     /**
-     * @return array|null
+     * @return ArrayCollection|array|null
      */
     public function getMemberAccounts(): ?array
     {

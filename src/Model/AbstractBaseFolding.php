@@ -11,6 +11,10 @@ abstract class AbstractBaseFolding extends AbstractBase
     protected ?int $rank;
 
     /**
+     * Methods
+     */
+
+    /**
      * @return int
      */
     public function getId(): int

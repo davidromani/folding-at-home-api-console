@@ -7,6 +7,10 @@ class FoldingTeamMemberAccount extends AbstractBaseFolding
     private ?FoldingTeam $team;
 
     /**
+     * Methods
+     */
+
+    /**
      * Constructor
      */
     public function __construct()

@@ -168,8 +168,7 @@ class FoldingTeamsApiManager
                         ->setId($item[1])
                         ->setRank($item[2])
                         ->setScore($item[3])
-                        ->setWus($item[4])
-                    ;
+                        ->setWus($item[4]);
                     $result[] = $teamMemberAccount;
                 }
             }
