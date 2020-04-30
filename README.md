@@ -14,6 +14,7 @@ A Symfony 4.4 LTS console command to interact with [Folding@Home](https://foldin
 $ git clone git@github.com:davidromani/folding-at-home-api-console.git
 $ cd folding-at-home-api-console
 $ composer install
+$ ./vendor/bin/doctrine orm:schema-tool:create
 ```
 
 ## Usage

@@ -13,7 +13,7 @@ function GetEntityManager()
     $cache = null;
     $useSimpleAnnotationReader = false;
     $config = Setup::createAnnotationMetadataConfiguration(
-        array(__DIR__."/src"),
+        array(__DIR__.DIRECTORY_SEPARATOR.'src'),
         $isDevMode,
         $proxyDir,
         $cache,
@@ -21,7 +21,7 @@ function GetEntityManager()
     );
     $connection = array(
         'driver' => 'pdo_sqlite',
-        'path' => __DIR__.'var'.DIRECTORY_SEPARATOR.'storage.sqlite',
+        'path' => __DIR__.DIRECTORY_SEPARATOR.'var'.DIRECTORY_SEPARATOR.'storage.sqlite',
     );
 
     return EntityManager::create($connection, $config);
