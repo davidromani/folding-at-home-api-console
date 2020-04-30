@@ -78,6 +78,14 @@ class ConsoleCustomStyle extends SymfonyStyle implements StyleInterface
     }
 
     /**
+     * @param string $message
+     */
+    public function error($message)
+    {
+        $this->block($message, 'ERROR', 'fg=black;bg=red', ' ', true);
+    }
+
+    /**
      * Auto prepend block
      */
     private function autoPrependBlock(): void

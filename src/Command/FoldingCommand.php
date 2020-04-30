@@ -6,28 +6,26 @@ use App\Manager\FoldingTeamsApiManager;
 use App\Model\AbstractBase;
 use App\Model\FoldingTeamMemberAccount;
 use DateTimeImmutable;
-use Symfony\Component\Console\Command\Command;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FoldingCommand extends Command
+class FoldingCommand extends AbstractBaseCommand
 {
     protected static $defaultName = 'folding:get:team:stats';
-
-    private FoldingTeamsApiManager $fcm;
     private int $foldingTeamNumber;
 
     /**
      * Constructor
      *
      * @param FoldingTeamsApiManager $fcm
+     * @param EntityManager|null     $em
      */
-    public function __construct(FoldingTeamsApiManager $fcm)
+    public function __construct(FoldingTeamsApiManager $fcm, ?EntityManager $em)
     {
-        $this->fcm = $fcm;
+        parent::__construct($fcm, $em);
         $this->foldingTeamNumber = $fcm->getFoldingTeamNumber();
-        parent::__construct();
     }
 
     /**
