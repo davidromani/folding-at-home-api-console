@@ -2,32 +2,36 @@
 
 namespace App\Command;
 
+use App\Entity\FoldingTeam;
 use App\Manager\FoldingTeamsApiManager;
+use App\Manager\FoldingTeamsLocalStorageManager;
 use App\Model\AbstractBase;
-use App\Model\FoldingTeamMemberAccount;
+use App\Model\FoldingTeam as FoldingTeamModel;
+use App\Model\FoldingTeamMemberAccount as FoldingTeamMemberAccountModel;
 use DateTimeImmutable;
-use Symfony\Component\Console\Command\Command;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FoldingCommand extends Command
+class FoldingGetTeamStatsCommand extends AbstractBaseCommand
 {
     protected static $defaultName = 'folding:get:team:stats';
-
-    private FoldingTeamsApiManager $fcm;
+    private FoldingTeamsLocalStorageManager $ftlsm;
     private int $foldingTeamNumber;
 
     /**
      * Constructor
      *
-     * @param FoldingTeamsApiManager $fcm
+     * @param FoldingTeamsApiManager     $fcm
+     * @param EntityManager|null         $em
      */
-    public function __construct(FoldingTeamsApiManager $fcm)
+    public function __construct(FoldingTeamsApiManager $fcm, EntityManager $em)
     {
-        $this->fcm = $fcm;
+        parent::__construct($fcm, $em);
+        $this->ftlsm = new FoldingTeamsLocalStorageManager($em);
         $this->foldingTeamNumber = $fcm->getFoldingTeamNumber();
-        parent::__construct();
     }
 
     /**
@@ -39,6 +43,7 @@ class FoldingCommand extends Command
             ->setDescription('Get team stats')
             ->setHelp('Show a detailed view of current Folding@Home team stats.')
             ->addArgument('id', InputArgument::OPTIONAL, 'The Folding@Home team number.')
+            ->addOption('persist', 'p', InputOption::VALUE_NONE, 'If set, result data will be persisted into a local storage database.')
         ;
     }
 
@@ -49,6 +54,9 @@ class FoldingCommand extends Command
      * @param OutputInterface $output
      *
      * @return int
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -57,6 +65,7 @@ class FoldingCommand extends Command
         $io->section('Total current Folding@Home teams amount');
         $totalTeamsAmount = AbstractBase::getPrettyFormatValueInString($this->fcm->getCurrentTotalTeams());
         $io->text($totalTeamsAmount);
+        /** @var FoldingTeamModel $team */
         $team = $this->fcm->getFoldingTeamById($input->getArgument('id'));
         $io->section('Team report');
         $io->table(
@@ -75,7 +84,7 @@ class FoldingCommand extends Command
         if (count($team->getMemberAccounts()) > 0) {
             $rows = [];
             $io->section('Team member accounts');
-            /** @var FoldingTeamMemberAccount $teamMemberAccount */
+            /** @var FoldingTeamMemberAccountModel $teamMemberAccount */
             foreach ($team->getMemberAccounts() as $teamMemberAccount) {
                 $rows[] = [
                     $teamMemberAccount->getId(),
@@ -89,6 +98,15 @@ class FoldingCommand extends Command
                 ['#', 'Name', 'Score', 'Work Units', 'Rank'],
                 $rows
             );
+        }
+
+        if ($input->getOption('persist')) {
+            $isPersistedOrUpdated = $this->ftlsm->persistFoldingTeam($team);
+            if (!$isPersistedOrUpdated) {
+                $io->error('No data persisted in local storage');
+
+                return 0;
+            }
         }
         $now = new DateTimeImmutable();
         $io->success('Reported data status at '.$now->format('d/m/Y H:i'));

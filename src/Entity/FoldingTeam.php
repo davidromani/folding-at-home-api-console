@@ -1,13 +1,42 @@
 <?php
 
-namespace App\Model;
+namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\FoldingTeamRepository")
+ * @ORM\Table(name="teams")
+ */
 class FoldingTeam extends AbstractBaseFolding
 {
+    /**
+     * @ORM\Column(type="integer", name="folding_team_id", unique=true)
+     */
+    protected int $foldingId;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private ?string $founder;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private ?string $url;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private ?string $logo;
-    private ?array $memberAccounts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\FoldingTeamMemberAccount", mappedBy="team", indexBy="member_accounts")
+     *
+     * @var ArrayCollection
+     */
+    private $memberAccounts;
 
     /**
      * Methods
@@ -18,8 +47,7 @@ class FoldingTeam extends AbstractBaseFolding
      */
     public function __construct()
     {
-        $this->id = 0;
-        $this->memberAccounts = [];
+        $this->memberAccounts = new ArrayCollection();
     }
 
     /**
@@ -83,7 +111,7 @@ class FoldingTeam extends AbstractBaseFolding
     }
 
     /**
-     * @return array|null
+     * @return ArrayCollection|array|null
      */
     public function getMemberAccounts(): ?array
     {
@@ -95,7 +123,7 @@ class FoldingTeam extends AbstractBaseFolding
      *
      * @return $this
      */
-    public function setMemberAccounts(?array $memberAccounts): FoldingTeam
+    public function setMemberAccounts($memberAccounts): FoldingTeam
     {
         $this->memberAccounts = $memberAccounts;
 

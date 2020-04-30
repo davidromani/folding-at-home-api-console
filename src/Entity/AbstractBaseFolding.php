@@ -1,13 +1,34 @@
 <?php
 
-namespace App\Model;
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 abstract class AbstractBaseFolding extends AbstractBase
 {
-    protected int $id;
+    /**
+     * @var int
+     */
+    protected int $foldingId;
+
+    /**
+     * @ORM\Column(type="string")
+     */
     protected string $name;
-    protected int $score;
-    protected int $wus;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected ?int $score;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected ?int $wus;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
     protected ?int $rank;
 
     /**
@@ -17,27 +38,19 @@ abstract class AbstractBaseFolding extends AbstractBase
     /**
      * @return int
      */
-    public function getId(): int
+    public function getFoldingId(): int
     {
-        return $this->id;
+        return $this->foldingId;
     }
 
     /**
-     * @return string
-     */
-    public function getIdString(): string
-    {
-        return AbstractBase::getPrettyFormatValueInString($this->getId());
-    }
-
-    /**
-     * @param int $id
+     * @param int $foldingId
      *
      * @return $this
      */
-    public function setId(int $id): self
+    public function setFoldingId(int $foldingId): self
     {
-        $this->id = $id;
+        $this->foldingId = $foldingId;
 
         return $this;
     }
@@ -63,9 +76,9 @@ abstract class AbstractBaseFolding extends AbstractBase
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getScore(): int
+    public function getScore(): ?int
     {
         return $this->score;
     }
@@ -79,11 +92,11 @@ abstract class AbstractBaseFolding extends AbstractBase
     }
 
     /**
-     * @param int $score
+     * @param int|null $score
      *
      * @return $this
      */
-    public function setScore(int $score): self
+    public function setScore(?int $score): self
     {
         $this->score = $score;
 
@@ -91,9 +104,9 @@ abstract class AbstractBaseFolding extends AbstractBase
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getWus(): int
+    public function getWus(): ?int
     {
         return $this->wus;
     }
@@ -107,11 +120,11 @@ abstract class AbstractBaseFolding extends AbstractBase
     }
 
     /**
-     * @param int $wus
+     * @param int|null $wus
      *
      * @return $this
      */
-    public function setWus(int $wus): self
+    public function setWus(?int $wus): self
     {
         $this->wus = $wus;
 
