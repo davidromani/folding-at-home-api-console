@@ -8,23 +8,32 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="teams")
  */
-class FoldingTeam extends AbstractBase
+class FoldingTeam extends AbstractBaseFolding
 {
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="folding_team_id", unique=true)
      */
-    private int $foldingId;
+    protected int $foldingId;
 
-    private string $name;
-    private int $score;
-    private int $wus;
-    private ?int $rank;
-
-
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private ?string $founder;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private ?string $url;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private ?string $logo;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\FoldingTeamMemberAccount", inversedBy="team")
+     * @ORM\JoinColumn(name="member_accounts")
+     */
     private ?array $memberAccounts;
 
     /**
@@ -32,7 +41,6 @@ class FoldingTeam extends AbstractBase
      */
     public function __construct()
     {
-        $this->id = 0;
         $this->memberAccounts = [];
     }
 

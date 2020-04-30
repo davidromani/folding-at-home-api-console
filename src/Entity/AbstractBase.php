@@ -28,7 +28,7 @@ abstract class AbstractBase
     protected ?DateTimeInterface $updated;
 
     /**
-     * Methods.
+     * Methods
      */
 
     /**
@@ -93,5 +93,22 @@ abstract class AbstractBase
     public function __toString()
     {
         return $this->id ? $this->getId() : '---';
+    }
+
+    /**
+     * Get an integer value in a pretty format string
+     *
+     * @param int|null $value
+     * @return string
+     */
+    public static function getPrettyFormatValueInString(?int $value) : string
+    {
+        $result = '0';
+        if ($value) {
+            $value = floatval($value);
+            $result = number_format($value, 0, ',', '.');
+        }
+
+        return $result;
     }
 }
