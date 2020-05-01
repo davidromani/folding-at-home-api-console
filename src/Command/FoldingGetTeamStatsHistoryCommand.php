@@ -46,6 +46,7 @@ class FoldingGetTeamStatsHistoryCommand extends AbstractBaseCommand
         $teams = $this->ftlsm->getAllPersistedTeams();
         if (count($teams) > 0) {
             $rows = [];
+            $io->newLine();
             /** @var FoldingTeam $team */
             foreach ($teams as $team) {
                 $rows[] = [
