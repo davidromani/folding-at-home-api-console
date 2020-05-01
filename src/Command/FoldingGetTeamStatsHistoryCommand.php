@@ -14,9 +14,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FoldingGetTeamStatsCommand extends AbstractBaseCommand
+class FoldingGetTeamStatsHistoryCommand extends AbstractBaseCommand
 {
-    protected static $defaultName = 'folding:get:team:stats';
+    protected static $defaultName = 'folding:get:team:stats:history';
     private FoldingTeamsLocalStorageManager $ftlsm;
     private int                             $foldingTeamNumber;
 

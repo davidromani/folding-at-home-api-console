@@ -30,3 +30,9 @@ Persist team stats by ID number into a local storage database. Remember to repla
 ```bash
 $ php app.php folding:get:team:stats <id> --persist
 ```
+
+Show a history list of all team stats stored in the local database.
+
+```bash
+$ php app.php folding:get:team:stats:history
+```
