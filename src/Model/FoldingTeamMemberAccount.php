@@ -7,11 +7,11 @@ class FoldingTeamMemberAccount extends AbstractBaseFolding
     private ?FoldingTeam $team;
 
     /**
-     * Methods
+     * Methods.
      */
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -19,17 +19,12 @@ class FoldingTeamMemberAccount extends AbstractBaseFolding
         $this->id = 0;
     }
 
-    /**
-     * @return FoldingTeam|null
-     */
     public function getTeam(): ?FoldingTeam
     {
         return $this->team;
     }
 
     /**
-     * @param FoldingTeam|null $team
-     *
      * @return $this
      */
     public function setTeam(?FoldingTeam $team): FoldingTeamMemberAccount

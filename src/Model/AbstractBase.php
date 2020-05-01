@@ -5,10 +5,7 @@ namespace App\Model;
 abstract class AbstractBase
 {
     /**
-     * Get integer pretty value in string format
-     *
-     * @param int|null $value
-     * @return string
+     * Get integer pretty value in string format.
      */
     public static function getPrettyFormatValueInString(?int $value): string
     {

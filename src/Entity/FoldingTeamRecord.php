@@ -16,11 +16,7 @@ class FoldingTeamRecord extends AbstractBaseFoldingTeamRecord
     private ?FoldingTeam $team;
 
     /**
-     * Methods
-     */
-
-    /**
-     * @return FoldingTeam|null
+     * Methods.
      */
     public function getTeam(): ?FoldingTeam
     {
@@ -28,8 +24,6 @@ class FoldingTeamRecord extends AbstractBaseFoldingTeamRecord
     }
 
     /**
-     * @param FoldingTeam|null $team
-     *
      * @return $this
      */
     public function setTeam(?FoldingTeam $team): FoldingTeamRecord

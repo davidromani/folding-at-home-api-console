@@ -39,28 +39,23 @@ class FoldingTeam extends AbstractBaseFolding
     private $memberAccounts;
 
     /**
-     * Methods
+     * Methods.
      */
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
         $this->memberAccounts = new ArrayCollection();
     }
 
-    /**
-     * @return string|null
-     */
     public function getFounder(): ?string
     {
         return $this->founder;
     }
 
     /**
-     * @param string|null $founder
-     *
      * @return $this
      */
     public function setFounder(?string $founder): FoldingTeam
@@ -70,17 +65,12 @@ class FoldingTeam extends AbstractBaseFolding
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUrl(): ?string
     {
         return $this->url;
     }
 
     /**
-     * @param string|null $url
-     *
      * @return $this
      */
     public function setUrl(?string $url): FoldingTeam
@@ -90,17 +80,12 @@ class FoldingTeam extends AbstractBaseFolding
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLogo(): ?string
     {
         return $this->logo;
     }
 
     /**
-     * @param string|null $logo
-     *
      * @return $this
      */
     public function setLogo(?string $logo): FoldingTeam
@@ -131,8 +116,6 @@ class FoldingTeam extends AbstractBaseFolding
     }
 
     /**
-     * @param FoldingTeamMemberAccount $memberAccount
-     *
      * @return $this
      */
     public function addMemberAccount(FoldingTeamMemberAccount $memberAccount): FoldingTeam

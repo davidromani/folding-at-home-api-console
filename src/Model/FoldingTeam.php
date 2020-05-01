@@ -10,11 +10,11 @@ class FoldingTeam extends AbstractBaseFolding
     private ?array $memberAccounts;
 
     /**
-     * Methods
+     * Methods.
      */
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -22,17 +22,12 @@ class FoldingTeam extends AbstractBaseFolding
         $this->memberAccounts = [];
     }
 
-    /**
-     * @return string|null
-     */
     public function getFounder(): ?string
     {
         return $this->founder;
     }
 
     /**
-     * @param string|null $founder
-     *
      * @return $this
      */
     public function setFounder(?string $founder): FoldingTeam
@@ -42,17 +37,12 @@ class FoldingTeam extends AbstractBaseFolding
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUrl(): ?string
     {
         return $this->url;
     }
 
     /**
-     * @param string|null $url
-     *
      * @return $this
      */
     public function setUrl(?string $url): FoldingTeam
@@ -62,17 +52,12 @@ class FoldingTeam extends AbstractBaseFolding
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLogo(): ?string
     {
         return $this->logo;
     }
 
     /**
-     * @param string|null $logo
-     *
      * @return $this
      */
     public function setLogo(?string $logo): FoldingTeam
@@ -82,17 +67,12 @@ class FoldingTeam extends AbstractBaseFolding
         return $this;
     }
 
-    /**
-     * @return array|null
-     */
     public function getMemberAccounts(): ?array
     {
         return $this->memberAccounts;
     }
 
     /**
-     * @param array|null $memberAccounts
-     *
      * @return $this
      */
     public function setMemberAccounts(?array $memberAccounts): FoldingTeam
@@ -103,8 +83,6 @@ class FoldingTeam extends AbstractBaseFolding
     }
 
     /**
-     * @param FoldingTeamMemberAccount $memberAccount
-     *
      * @return $this
      */
     public function addMemberAccount(FoldingTeamMemberAccount $memberAccount): FoldingTeam

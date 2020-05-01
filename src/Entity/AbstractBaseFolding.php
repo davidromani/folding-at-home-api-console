@@ -6,9 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 abstract class AbstractBaseFolding extends AbstractBase
 {
-    /**
-     * @var int
-     */
     protected int $foldingId;
 
     /**
@@ -32,11 +29,7 @@ abstract class AbstractBaseFolding extends AbstractBase
     protected ?int $rank;
 
     /**
-     * Methods
-     */
-
-    /**
-     * @return int
+     * Methods.
      */
     public function getFoldingId(): int
     {
@@ -44,8 +37,6 @@ abstract class AbstractBaseFolding extends AbstractBase
     }
 
     /**
-     * @param int $foldingId
-     *
      * @return $this
      */
     public function setFoldingId(int $foldingId): self
@@ -55,17 +46,12 @@ abstract class AbstractBaseFolding extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
-     *
      * @return $this
      */
     public function setName(string $name): self
@@ -75,25 +61,17 @@ abstract class AbstractBaseFolding extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getScore(): ?int
     {
         return $this->score;
     }
 
-    /**
-     * @return string
-     */
     public function getScoreString(): string
     {
         return AbstractBase::getPrettyFormatValueInString($this->getScore());
     }
 
     /**
-     * @param int|null $score
-     *
      * @return $this
      */
     public function setScore(?int $score): self
@@ -103,25 +81,17 @@ abstract class AbstractBaseFolding extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getWus(): ?int
     {
         return $this->wus;
     }
 
-    /**
-     * @return string
-     */
     public function getWusString(): string
     {
         return AbstractBase::getPrettyFormatValueInString($this->getWus());
     }
 
     /**
-     * @param int|null $wus
-     *
      * @return $this
      */
     public function setWus(?int $wus): self
@@ -131,25 +101,17 @@ abstract class AbstractBaseFolding extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getRank(): ?int
     {
         return $this->rank;
     }
 
-    /**
-     * @return string
-     */
     public function getRankString(): string
     {
         return AbstractBase::getPrettyFormatValueInString($this->getRank());
     }
 
     /**
-     * @param int|null $rank
-     *
      * @return $this
      */
     public function setRank(?int $rank): self

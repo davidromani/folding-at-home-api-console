@@ -11,28 +11,19 @@ abstract class AbstractBaseFolding extends AbstractBase
     protected ?int $rank;
 
     /**
-     * Methods
-     */
-
-    /**
-     * @return int
+     * Methods.
      */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getIdString(): string
     {
         return AbstractBase::getPrettyFormatValueInString($this->getId());
     }
 
     /**
-     * @param int $id
-     *
      * @return $this
      */
     public function setId(int $id): self
@@ -42,17 +33,12 @@ abstract class AbstractBaseFolding extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
-     *
      * @return $this
      */
     public function setName(string $name): self
@@ -62,25 +48,17 @@ abstract class AbstractBaseFolding extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getScore(): int
     {
         return $this->score;
     }
 
-    /**
-     * @return string
-     */
     public function getScoreString(): string
     {
         return AbstractBase::getPrettyFormatValueInString($this->getScore());
     }
 
     /**
-     * @param int $score
-     *
      * @return $this
      */
     public function setScore(int $score): self
@@ -90,25 +68,17 @@ abstract class AbstractBaseFolding extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getWus(): int
     {
         return $this->wus;
     }
 
-    /**
-     * @return string
-     */
     public function getWusString(): string
     {
         return AbstractBase::getPrettyFormatValueInString($this->getWus());
     }
 
     /**
-     * @param int $wus
-     *
      * @return $this
      */
     public function setWus(int $wus): self
@@ -118,25 +88,17 @@ abstract class AbstractBaseFolding extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getRank(): ?int
     {
         return $this->rank;
     }
 
-    /**
-     * @return string
-     */
     public function getRankString(): string
     {
         return AbstractBase::getPrettyFormatValueInString($this->getRank());
     }
 
     /**
-     * @param int|null $rank
-     *
      * @return $this
      */
     public function setRank(?int $rank): self

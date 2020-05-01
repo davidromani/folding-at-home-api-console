@@ -9,8 +9,6 @@ use Doctrine\ORM\NonUniqueResultException;
 class FoldingTeamMemberAccountRepository extends EntityRepository
 {
     /**
-     * @param int $foldingTeamId
-     *
      * @return FoldingTeamMemberAccount|null
      *
      * @throws NonUniqueResultException

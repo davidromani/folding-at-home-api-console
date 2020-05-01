@@ -18,13 +18,12 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
 {
     protected static $defaultName = 'folding:get:team:stats';
     private FoldingTeamsLocalStorageManager $ftlsm;
-    private int $foldingTeamNumber;
+    private int                             $foldingTeamNumber;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param FoldingTeamsApiManager     $fcm
-     * @param EntityManager|null         $em
+     * @param EntityManager|null $em
      */
     public function __construct(FoldingTeamsApiManager $fcm, EntityManager $em)
     {
@@ -34,7 +33,7 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
     }
 
     /**
-     * Configure
+     * Configure.
      */
     protected function configure()
     {
@@ -47,10 +46,7 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
     }
 
     /**
-     * Execute
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * Execute.
      *
      * @return int
      */

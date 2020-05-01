@@ -15,10 +15,7 @@ abstract class AbstractBaseCommand extends Command
     protected ?EntityManager          $em;
 
     /**
-     * Constructor
-     *
-     * @param FoldingTeamsApiManager|null $fcm
-     * @param EntityManager|null          $em
+     * Constructor.
      */
     public function __construct(FoldingTeamsApiManager $fcm = null, ?EntityManager $em = null)
     {

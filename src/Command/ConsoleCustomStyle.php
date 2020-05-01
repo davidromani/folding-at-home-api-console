@@ -17,9 +17,6 @@ class ConsoleCustomStyle extends SymfonyStyle implements StyleInterface
 
     /**
      * ConsoleCustomStyle constructor.
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
      */
     public function __construct(InputInterface $input, OutputInterface $output)
     {
@@ -50,10 +47,6 @@ class ConsoleCustomStyle extends SymfonyStyle implements StyleInterface
         ]);
     }
 
-    /**
-     * @param array $headers
-     * @param array $rows
-     */
     public function table(array $headers, array $rows)
     {
         $style = clone Table::getStyleDefinition('box');
@@ -86,7 +79,7 @@ class ConsoleCustomStyle extends SymfonyStyle implements StyleInterface
     }
 
     /**
-     * Auto prepend block
+     * Auto prepend block.
      */
     private function autoPrependBlock(): void
     {

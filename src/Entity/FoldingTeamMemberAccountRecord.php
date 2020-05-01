@@ -16,11 +16,7 @@ class FoldingTeamMemberAccountRecord extends AbstractBaseFoldingTeamRecord
     private ?FoldingTeamMemberAccount $teamMemberAccount;
 
     /**
-     * Methods
-     */
-
-    /**
-     * @return FoldingTeamMemberAccount|null
+     * Methods.
      */
     public function getTeamMemberAccount(): ?FoldingTeamMemberAccount
     {
@@ -28,8 +24,6 @@ class FoldingTeamMemberAccountRecord extends AbstractBaseFoldingTeamRecord
     }
 
     /**
-     * @param FoldingTeamMemberAccount|null $teamMemberAccount
-     *
      * @return $this
      */
     public function setTeamMemberAccount(?FoldingTeamMemberAccount $teamMemberAccount): FoldingTeamMemberAccountRecord
