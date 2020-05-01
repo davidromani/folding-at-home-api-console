@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\FoldingTeam;
 use App\Manager\FoldingTeamsLocalStorageManager;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,7 +44,28 @@ class FoldingGetTeamStatsHistoryCommand extends AbstractBaseCommand
     {
         $io = $this->printCommandHeaderWelcomeAndGetConsoleStyle($input, $output);
         $teams = $this->ftlsm->getAllPersistedTeams();
-        $io->success('Total teams recorded: '.count($teams));
+        if (count($teams) > 0) {
+            $rows = [];
+            /** @var FoldingTeam $team */
+            foreach ($teams as $team) {
+                $rows[] = [
+                    $team->getFoldingId(),
+                    $team->getName(),
+                    $team->getFounder(),
+                    $team->getUrl(),
+                    $team->getScoreString(),
+                    $team->getWusString(),
+                    $team->getRank() ? $team->getRankString() : 'unknown',
+                ];
+            }
+            $io->table(
+                ['#', 'Name', 'Founder', 'URL', 'Score', 'Work Units', 'Rank'],
+                $rows
+            );
+            $io->success('Total teams recorded: '.count($teams));
+        } else {
+            $io->warning('No teams stored in local database. Try to execute "folding:get:team:stats <id> --persist" first.');
+        }
 
         return AbstractBaseCommand::EXIT_COMMAND_SUCCESS;
     }
