@@ -93,9 +93,9 @@ class FoldingTeamsLocalStorageManager
                 $record = new FoldingTeamMemberAccountRecord();
                 $record
                     ->setTeamMemberAccount($memberAccountEntity)
-                    ->setScore($entity->getScore())
-                    ->setWus($entity->getWus())
-                    ->setRank($entity->getRank())
+                    ->setScore($memberAccountEntity->getScore())
+                    ->setWus($memberAccountEntity->getWus())
+                    ->setRank($memberAccountEntity->getRank())
                     ->setRecorded(new DateTimeImmutable());
                 $this->em->persist($record);
             }
