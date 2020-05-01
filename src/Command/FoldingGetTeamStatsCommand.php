@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\FoldingTeam;
 use App\Manager\FoldingTeamsApiManager;
 use App\Manager\FoldingTeamsLocalStorageManager;
 use App\Model\AbstractBase;
@@ -54,9 +53,6 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
      * @param OutputInterface $output
      *
      * @return int
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -105,12 +101,12 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
             if (!$isPersistedOrUpdated) {
                 $io->error('No data persisted in local storage');
 
-                return 0;
+                return AbstractBaseCommand::EXIT_COMMAND_FAILURE;
             }
         }
         $now = new DateTimeImmutable();
         $io->success('Reported data status at '.$now->format('d/m/Y H:i'));
 
-        return 1;
+        return AbstractBaseCommand::EXIT_COMMAND_SUCCESS;
     }
 }

@@ -49,6 +49,6 @@ class ShowErrorCommand extends AbstractBaseCommand
         $io = new ConsoleCustomStyle($input, $output);
         $io->error($this->errorMessage);
 
-        return 1;
+        return AbstractBaseCommand::EXIT_COMMAND_FAILURE;
     }
 }
