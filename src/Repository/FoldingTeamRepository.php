@@ -22,4 +22,16 @@ class FoldingTeamRepository extends EntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+    /**
+     * @return FoldingTeam[]|array|null
+     */
+    public function getAllTeamsSortedByName()
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

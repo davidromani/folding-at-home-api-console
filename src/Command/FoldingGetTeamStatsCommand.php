@@ -61,8 +61,7 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new ConsoleCustomStyle($input, $output);
-        $io->title('Welcome to Folding@Home '.$this->getName().' command line tool');
+        $io = $this->printCommandHeaderWelcomeAndGetConsoleStyle($input, $output);
         $io->section('Total current Folding@Home teams amount');
         $totalTeamsAmount = AbstractBase::getPrettyFormatValueInString($this->fcm->getCurrentTotalTeams());
         $io->text($totalTeamsAmount);

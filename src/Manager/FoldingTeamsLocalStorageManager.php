@@ -106,4 +106,12 @@ class FoldingTeamsLocalStorageManager
 
         return $result;
     }
+
+    /**
+     * @return FoldingTeam[]|array|null
+     */
+    public function getAllPersistedTeams()
+    {
+        return $this->ftr->getAllTeamsSortedByName();
+    }
 }
