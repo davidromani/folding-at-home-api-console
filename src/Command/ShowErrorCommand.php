@@ -11,13 +11,11 @@ class ShowErrorCommand extends AbstractBaseCommand
     private string   $errorMessage;
 
     /**
-     * Methods
+     * Methods.
      */
 
     /**
-     * Constructor
-     *
-     * @param string $errorMessage
+     * Constructor.
      */
     public function __construct(string $errorMessage)
     {
@@ -26,7 +24,7 @@ class ShowErrorCommand extends AbstractBaseCommand
     }
 
     /**
-     * Configure
+     * Configure.
      */
     protected function configure()
     {
@@ -37,10 +35,7 @@ class ShowErrorCommand extends AbstractBaseCommand
     }
 
     /**
-     * Execute
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * Execute.
      *
      * @return int
      */
@@ -49,6 +44,6 @@ class ShowErrorCommand extends AbstractBaseCommand
         $io = new ConsoleCustomStyle($input, $output);
         $io->error($this->errorMessage);
 
-        return 1;
+        return AbstractBaseCommand::EXIT_COMMAND_FAILURE;
     }
 }

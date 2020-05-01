@@ -26,10 +26,7 @@ class FoldingTeamsApiManager
     private int $foldingTeamNumber;
 
     /**
-     * Constructor
-     *
-     * @param string $foldingApiUrl
-     * @param int $foldingTeamNumber
+     * Constructor.
      */
     public function __construct(string $foldingApiUrl, int $foldingTeamNumber)
     {
@@ -41,18 +38,13 @@ class FoldingTeamsApiManager
         $this->httpClient = new CurlHttpClient();
     }
 
-    /**
-     * @return int
-     */
     public function getFoldingTeamNumber(): int
     {
         return $this->foldingTeamNumber;
     }
 
     /**
-     * Get Folding@Home current total teams amount | negative number on API connection error
-     *
-     * @return int
+     * Get Folding@Home current total teams amount | negative number on API connection error.
      */
     public function getCurrentTotalTeams(): int
     {
@@ -72,11 +64,7 @@ class FoldingTeamsApiManager
     }
 
     /**
-     * Get Folding@Home team HTTP content response
-     *
-     * @param int|null $id
-     *
-     * @return string
+     * Get Folding@Home team HTTP content response.
      *
      * @throws TransportExceptionInterface
      * @throws ClientExceptionInterface
@@ -89,11 +77,7 @@ class FoldingTeamsApiManager
     }
 
     /**
-     * Get Folding@Home team object | null on API connection error
-     *
-     * @param int|null $id
-     *
-     * @return FoldingTeam|null
+     * Get Folding@Home team object | null on API connection error.
      */
     public function getFoldingTeamById(?int $id = null): ?FoldingTeam
     {
@@ -130,11 +114,7 @@ class FoldingTeamsApiManager
     }
 
     /**
-     * Get Folding@Home team accounts array HTTP content response
-     *
-     * @param int|null $id
-     *
-     * @return array
+     * Get Folding@Home team accounts array HTTP content response.
      *
      * @throws TransportExceptionInterface
      * @throws ClientExceptionInterface
@@ -148,11 +128,7 @@ class FoldingTeamsApiManager
     }
 
     /**
-     * Get Folding@Home team accounts array | empty array on API connection error
-     *
-     * @param int|null $id
-     *
-     * @return array
+     * Get Folding@Home team accounts array | empty array on API connection error.
      */
     public function getFoldingTeamMemberAccountsByTeamId(?int $id = null): array
     {
@@ -188,8 +164,6 @@ class FoldingTeamsApiManager
     }
 
     /**
-     * @param string $endPoint
-     *
      * @return ResponseInterface
      *
      * @throws TransportExceptionInterface
@@ -200,15 +174,13 @@ class FoldingTeamsApiManager
     }
 
     /**
-     * @param int|null $id
-     *
      * @return string
      */
     private function getTeamIdString(?int $id = null)
     {
-        $teamNumberString = (string)$this->foldingTeamNumber;
+        $teamNumberString = (string) $this->foldingTeamNumber;
         if (!is_null($id)) {
-            $teamNumberString = (string)$id;
+            $teamNumberString = (string) $id;
         }
 
         return $teamNumberString;

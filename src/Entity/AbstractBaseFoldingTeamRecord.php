@@ -36,28 +36,19 @@ abstract class AbstractBaseFoldingTeamRecord
     protected ?DateTimeInterface $recorded;
 
     /**
-     * Methods
-     */
-
-    /**
-     * @return int
+     * Methods.
      */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return int|null
-     */
     public function getScore(): ?int
     {
         return $this->score;
     }
 
     /**
-     * @param int|null $score
-     *
      * @return $this
      */
     public function setScore(?int $score): self
@@ -67,17 +58,12 @@ abstract class AbstractBaseFoldingTeamRecord
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getWus(): ?int
     {
         return $this->wus;
     }
 
     /**
-     * @param int|null $wus
-     *
      * @return $this
      */
     public function setWus(?int $wus): self
@@ -87,17 +73,12 @@ abstract class AbstractBaseFoldingTeamRecord
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getRank(): ?int
     {
         return $this->rank;
     }
 
     /**
-     * @param int|null $rank
-     *
      * @return $this
      */
     public function setRank(?int $rank): self
@@ -107,17 +88,12 @@ abstract class AbstractBaseFoldingTeamRecord
         return $this;
     }
 
-    /**
-     * @return DateTimeInterface|null
-     */
     public function getRecorded(): ?DateTimeInterface
     {
         return $this->recorded;
     }
 
     /**
-     * @param DateTimeInterface|null $recorded
-     *
      * @return $this
      */
     public function setRecorded(?DateTimeInterface $recorded): self

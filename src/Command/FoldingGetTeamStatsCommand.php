@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\FoldingTeam;
 use App\Manager\FoldingTeamsApiManager;
 use App\Manager\FoldingTeamsLocalStorageManager;
 use App\Model\AbstractBase;
@@ -19,13 +18,12 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
 {
     protected static $defaultName = 'folding:get:team:stats';
     private FoldingTeamsLocalStorageManager $ftlsm;
-    private int $foldingTeamNumber;
+    private int                             $foldingTeamNumber;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param FoldingTeamsApiManager     $fcm
-     * @param EntityManager|null         $em
+     * @param EntityManager|null $em
      */
     public function __construct(FoldingTeamsApiManager $fcm, EntityManager $em)
     {
@@ -35,33 +33,35 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
     }
 
     /**
-     * Configure
+     * Configure.
      */
     protected function configure()
     {
         $this
             ->setDescription('Get team stats')
             ->setHelp('Show a detailed view of current Folding@Home team stats.')
-            ->addArgument('id', InputArgument::OPTIONAL, 'The Folding@Home team number.')
-            ->addOption('persist', 'p', InputOption::VALUE_NONE, 'If set, result data will be persisted into a local storage database.')
+            ->addArgument(
+                'id',
+                InputArgument::OPTIONAL,
+                'The Folding@Home team number.'
+            )
+            ->addOption(
+                'persist',
+                'p',
+                InputOption::VALUE_NONE,
+                'If set, result data will be persisted into a local storage database.'
+            )
         ;
     }
 
     /**
-     * Execute
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * Execute.
      *
      * @return int
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new ConsoleCustomStyle($input, $output);
-        $io->title('Welcome to Folding@Home '.$this->getName().' command line tool');
+        $io = $this->printCommandHeaderWelcomeAndGetConsoleStyle($input, $output);
         $io->section('Total current Folding@Home teams amount');
         $totalTeamsAmount = AbstractBase::getPrettyFormatValueInString($this->fcm->getCurrentTotalTeams());
         $io->text($totalTeamsAmount);
@@ -105,12 +105,12 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
             if (!$isPersistedOrUpdated) {
                 $io->error('No data persisted in local storage');
 
-                return 0;
+                return AbstractBaseCommand::EXIT_COMMAND_FAILURE;
             }
         }
         $now = new DateTimeImmutable();
         $io->success('Reported data status at '.$now->format('d/m/Y H:i'));
 
-        return 1;
+        return AbstractBaseCommand::EXIT_COMMAND_SUCCESS;
     }
 }

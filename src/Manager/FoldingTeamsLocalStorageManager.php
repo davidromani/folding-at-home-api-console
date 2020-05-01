@@ -8,8 +8,8 @@ use App\Entity\FoldingTeamMemberAccountRecord;
 use App\Entity\FoldingTeamRecord;
 use App\Model\FoldingTeam as FoldingTeamModel;
 use App\Model\FoldingTeamMemberAccount as FoldingTeamMemberAccountModel;
-use App\Repository\FoldingTeamRepository;
 use App\Repository\FoldingTeamMemberAccountRepository;
+use App\Repository\FoldingTeamRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
@@ -22,13 +22,11 @@ class FoldingTeamsLocalStorageManager
     private FoldingTeamMemberAccountRepository $ftmar;
 
     /**
-     * Methods
+     * Methods.
      */
 
     /**
-     * Constructor
-     *
-     * @param EntityManager $em
+     * Constructor.
      */
     public function __construct(EntityManager $em)
     {
@@ -38,8 +36,6 @@ class FoldingTeamsLocalStorageManager
     }
 
     /**
-     * @param FoldingTeamModel $team
-     *
      * @return bool
      */
     public function persistFoldingTeam(FoldingTeamModel $team)
@@ -93,9 +89,9 @@ class FoldingTeamsLocalStorageManager
                 $record = new FoldingTeamMemberAccountRecord();
                 $record
                     ->setTeamMemberAccount($memberAccountEntity)
-                    ->setScore($entity->getScore())
-                    ->setWus($entity->getWus())
-                    ->setRank($entity->getRank())
+                    ->setScore($memberAccountEntity->getScore())
+                    ->setWus($memberAccountEntity->getWus())
+                    ->setRank($memberAccountEntity->getRank())
                     ->setRecorded(new DateTimeImmutable());
                 $this->em->persist($record);
             }
@@ -109,5 +105,13 @@ class FoldingTeamsLocalStorageManager
         }
 
         return $result;
+    }
+
+    /**
+     * @return FoldingTeam[]|array|null
+     */
+    public function getAllPersistedTeams()
+    {
+        return $this->ftr->getAllTeamsSortedByName();
     }
 }
