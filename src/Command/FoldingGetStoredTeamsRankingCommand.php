@@ -6,9 +6,9 @@ use App\Entity\FoldingTeam;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FoldingGetTeamStatsHistoryCommand extends AbstractBaseCommand
+class FoldingGetStoredTeamsRankingCommand extends AbstractBaseCommand
 {
-    protected static $defaultName = 'folding:get:team:stats:history';
+    protected static $defaultName = 'folding:get:stored:teams:ranking';
 
     /**
      * Methods.
@@ -20,8 +20,8 @@ class FoldingGetTeamStatsHistoryCommand extends AbstractBaseCommand
     protected function configure()
     {
         $this
-            ->setDescription('Get team stats history')
-            ->setHelp('Show a history list of all team stats stored in the local database.')
+            ->setDescription('Get local database teams total rankings')
+            ->setHelp('Get total team rankings list stored in local database.')
         ;
     }
 

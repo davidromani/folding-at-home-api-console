@@ -4,8 +4,8 @@
 
 require_once __DIR__.DIRECTORY_SEPARATOR.'bootstrap.php';
 
+use App\Command\FoldingGetStoredTeamsRankingCommand;
 use App\Command\FoldingGetTeamStatsCommand;
-use App\Command\FoldingGetTeamStatsHistoryCommand;
 use App\Command\ShowErrorCommand;
 use App\Manager\FoldingTeamsLocalStorageManager;
 use App\Manager\FoldingTeamsApiManager;
@@ -24,10 +24,10 @@ try {
     $foldingUsersApiManager = new FoldingUsersApiManager(FOLDING_API_URL);
     // Commands
     $foldingGetTeamStatsCommand = new FoldingGetTeamStatsCommand($foldingTeamsLocalStorageManager, $foldingTeamsApiManager, $foldingUsersApiManager, $entityManager);
-    $foldingGetTeamStatsHistoryCommand = new FoldingGetTeamStatsHistoryCommand($foldingTeamsLocalStorageManager, $foldingTeamsApiManager, $foldingUsersApiManager, $entityManager);
+    $foldingGetStoredTeamsRankingCommand = new FoldingGetStoredTeamsRankingCommand($foldingTeamsLocalStorageManager, $foldingTeamsApiManager, $foldingUsersApiManager, $entityManager);
     // Application
     $application->add($foldingGetTeamStatsCommand);
-    $application->add($foldingGetTeamStatsHistoryCommand);
+    $application->add($foldingGetStoredTeamsRankingCommand);
     $application->setDefaultCommand($foldingGetTeamStatsCommand->getName());
     // Exceptions
 } catch (ORMException $exception) {

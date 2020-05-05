@@ -25,8 +25,8 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
     protected function configure()
     {
         $this
-            ->setDescription('Get team stats')
-            ->setHelp('Show a detailed view of current Folding@Home team stats.')
+            ->setDescription('Get team stats and persist it locally (if you need)')
+            ->setHelp('Show a detailed view of current Folding@Home team stats. Optionally you can decide to persist results into a local database.')
             ->addArgument(
                 'id',
                 InputArgument::OPTIONAL,
@@ -36,7 +36,7 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
                 'persist',
                 'p',
                 InputOption::VALUE_NONE,
-                'If set, result data will be persisted into a local storage database.'
+                'If set, team results will be persisted into a local storage database.'
             )
         ;
     }
@@ -93,7 +93,7 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
         if ($input->getOption('persist')) {
             $isPersistedOrUpdated = $this->ftlsm->persistFoldingTeam($team);
             if (!$isPersistedOrUpdated) {
-                $io->error('No data persisted in local storage');
+                $io->error('No data have been persisted in local storage.');
 
                 return AbstractBaseCommand::EXIT_COMMAND_FAILURE;
             }
