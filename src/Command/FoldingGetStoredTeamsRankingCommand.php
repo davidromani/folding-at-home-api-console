@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\FoldingTeam;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FoldingGetStoredTeamsRankingCommand extends AbstractBaseCommand
@@ -22,6 +23,13 @@ class FoldingGetStoredTeamsRankingCommand extends AbstractBaseCommand
         $this
             ->setDescription('Get local database teams total rankings')
             ->setHelp('Get total team rankings list stored in local database.')
+            ->addOption(
+                'sorted-by',
+                's',
+                InputOption::VALUE_REQUIRED,
+                'Sort by team "name", "score", "WU" or "rank" options.',
+                'name'
+            )
         ;
     }
 
@@ -33,7 +41,15 @@ class FoldingGetStoredTeamsRankingCommand extends AbstractBaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = $this->printCommandHeaderWelcomeAndGetConsoleStyle($input, $output);
-        $teams = $this->ftlsm->getAllPersistedTeams();
+        if ($input->getOption('sorted-by') === 'score') {
+            $teams = $this->ftlsm->getAllPersistedTeamsSortedByScore();
+        } elseif ($input->getOption('sorted-by') === 'WU') {
+            $teams = $this->ftlsm->getAllPersistedTeamsSortedByWu();
+        } elseif ($input->getOption('sorted-by') === 'rank') {
+            $teams = $this->ftlsm->getAllPersistedTeamsSortedByRank();
+        } else {
+            $teams = $this->ftlsm->getAllPersistedTeamsSortedByName();
+        }
         if (count($teams) > 0) {
             $rows = [];
             $io->newLine();
