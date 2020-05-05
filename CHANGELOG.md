@@ -10,6 +10,7 @@ Changelog
 
 #### Version 0.0.06 (2020-05-05)
  * fix team member account ranks
+ * add sorting and order feature in folding:get:stored:teams:ranking command
 
 #### Version 0.0.05 (2020-05-01)
  * fix minor bugs

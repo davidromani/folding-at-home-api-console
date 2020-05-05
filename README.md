@@ -31,8 +31,8 @@ Persist team stats by ID number into a local storage database. Remember to repla
 $ php app.php folding:get:team:stats <id> --persist
 ```
 
-Show a history list of all team stats stored in the local database.
+Show list table with total team rankings list stored in the local database.
 
 ```bash
-$ php app.php folding:get:team:stats:history
+$ php app.php folding:get:stored:teams:ranking
 ```
