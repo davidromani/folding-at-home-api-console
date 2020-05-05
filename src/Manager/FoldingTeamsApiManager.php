@@ -4,43 +4,28 @@ namespace App\Manager;
 
 use App\Model\FoldingTeam;
 use App\Model\FoldingTeamMemberAccount;
-use Symfony\Component\HttpClient\CurlHttpClient;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class FoldingTeamsApiManager
+class FoldingTeamsApiManager extends AbstractBaseFoldingApiManager
 {
-    private CurlHttpClient $httpClient;
-    private SerializerInterface $serializer;
-    private string $foldingApiUrl;
     private int $foldingTeamNumber;
+
+    /**
+     * Methods.
+     */
 
     /**
      * Constructor.
      */
     public function __construct(string $foldingApiUrl, int $foldingTeamNumber)
     {
-        $this->foldingApiUrl = $foldingApiUrl.'team/';
+        parent::__construct($foldingApiUrl.'team/');
         $this->foldingTeamNumber = $foldingTeamNumber;
-        $encoders = [new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-        $this->serializer = new Serializer($normalizers, $encoders);
-        $this->httpClient = new CurlHttpClient();
-    }
-
-    public function getFoldingTeamNumber(): int
-    {
-        return $this->foldingTeamNumber;
     }
 
     /**
@@ -161,16 +146,6 @@ class FoldingTeamsApiManager
         }
 
         return $result;
-    }
-
-    /**
-     * @return ResponseInterface
-     *
-     * @throws TransportExceptionInterface
-     */
-    private function makeFoldingApiHttpServerRequestToEndPoint(string $endPoint)
-    {
-        return $this->httpClient->request(Request::METHOD_GET, $this->foldingApiUrl.$endPoint);
     }
 
     /**

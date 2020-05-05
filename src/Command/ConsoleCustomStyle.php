@@ -16,6 +16,10 @@ class ConsoleCustomStyle extends SymfonyStyle implements StyleInterface
     private BufferedOutput $bufferedOutput;
 
     /**
+     * Methods.
+     */
+
+    /**
      * ConsoleCustomStyle constructor.
      */
     public function __construct(InputInterface $input, OutputInterface $output)

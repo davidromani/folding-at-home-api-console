@@ -110,8 +110,32 @@ class FoldingTeamsLocalStorageManager
     /**
      * @return FoldingTeam[]|array|null
      */
-    public function getAllPersistedTeams()
+    public function getAllPersistedTeamsSortedByName(string $orderBy)
     {
-        return $this->ftr->getAllTeamsSortedByName();
+        return $this->ftr->getAllTeamsSortedByName($orderBy);
+    }
+
+    /**
+     * @return FoldingTeam[]|array|null
+     */
+    public function getAllPersistedTeamsSortedByRank(string $orderBy)
+    {
+        return $this->ftr->getAllTeamsSortedByRank($orderBy);
+    }
+
+    /**
+     * @return FoldingTeam[]|array|null
+     */
+    public function getAllPersistedTeamsSortedByWu(string $orderBy)
+    {
+        return $this->ftr->getAllTeamsSortedByWu($orderBy);
+    }
+
+    /**
+     * @return FoldingTeam[]|array|null
+     */
+    public function getAllPersistedTeamsSortedByScore(string $orderBy)
+    {
+        return $this->ftr->getAllTeamsSortedByScore($orderBy);
     }
 }

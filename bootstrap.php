@@ -3,8 +3,15 @@
 require_once __DIR__.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
 
+/**
+ * @return EntityManager
+ *
+ * @throws InvalidArgumentException
+ * @throws ORMException
+ */
 function GetEntityManager()
 {
     // ORM

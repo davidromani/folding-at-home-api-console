@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\FoldingTeam;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\QueryBuilder;
 
 class FoldingTeamRepository extends EntityRepository
 {
@@ -26,12 +27,40 @@ class FoldingTeamRepository extends EntityRepository
     /**
      * @return FoldingTeam[]|array|null
      */
-    public function getAllTeamsSortedByName()
+    public function getAllTeamsSortedByName(string $orderBy)
     {
-        return $this->createQueryBuilder('t')
-            ->orderBy('t.name', 'ASC')
-            ->getQuery()
-            ->getResult()
-        ;
+        return $this->getAllTeamsSortedByAttributeAndOrder('name', $orderBy)->getQuery()->getResult();
+    }
+
+    /**
+     * @return FoldingTeam[]|array|null
+     */
+    public function getAllTeamsSortedByRank(string $orderBy)
+    {
+        return $this->getAllTeamsSortedByAttributeAndOrder('rank', $orderBy)->getQuery()->getResult();
+    }
+
+    /**
+     * @return FoldingTeam[]|array|null
+     */
+    public function getAllTeamsSortedByWu(string $orderBy)
+    {
+        return $this->getAllTeamsSortedByAttributeAndOrder('wus', $orderBy)->getQuery()->getResult();
+    }
+
+    /**
+     * @return FoldingTeam[]|array|null
+     */
+    public function getAllTeamsSortedByScore(string $orderBy)
+    {
+        return $this->getAllTeamsSortedByAttributeAndOrder('score', $orderBy)->getQuery()->getResult();
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    private function getAllTeamsSortedByAttributeAndOrder(string $attribute, string $order = 'ASC')
+    {
+        return $this->createQueryBuilder('t')->orderBy('t.'.$attribute, $order);
     }
 }
