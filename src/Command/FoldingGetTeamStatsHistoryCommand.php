@@ -3,26 +3,16 @@
 namespace App\Command;
 
 use App\Entity\FoldingTeam;
-use App\Manager\FoldingTeamsLocalStorageManager;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FoldingGetTeamStatsHistoryCommand extends AbstractBaseCommand
 {
     protected static $defaultName = 'folding:get:team:stats:history';
-    private FoldingTeamsLocalStorageManager $ftlsm;
 
     /**
-     * Constructor.
-     *
-     * @param EntityManager|null $em
+     * Methods.
      */
-    public function __construct(EntityManager $em)
-    {
-        parent::__construct(null, $em);
-        $this->ftlsm = new FoldingTeamsLocalStorageManager($em);
-    }
 
     /**
      * Configure.

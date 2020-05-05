@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Manager\FoldingTeamsApiManager;
 use App\Manager\FoldingTeamsLocalStorageManager;
+use App\Manager\FoldingUsersApiManager;
 use App\Model\AbstractBase;
 use App\Model\FoldingTeam as FoldingTeamModel;
 use App\Model\FoldingTeamMemberAccount as FoldingTeamMemberAccountModel;
@@ -17,19 +18,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FoldingGetTeamStatsCommand extends AbstractBaseCommand
 {
     protected static $defaultName = 'folding:get:team:stats';
-    private FoldingTeamsLocalStorageManager $ftlsm;
-    private int                             $foldingTeamNumber;
+    private int $foldingTeamNumber;
+
+    /**
+     * Methods.
+     */
 
     /**
      * Constructor.
-     *
-     * @param EntityManager|null $em
      */
-    public function __construct(FoldingTeamsApiManager $fcm, EntityManager $em)
+    public function __construct(FoldingTeamsLocalStorageManager $ftlsm, FoldingTeamsApiManager $ftam, FoldingUsersApiManager $fuam, EntityManager $em, int $foldingTeamNumber)
     {
-        parent::__construct($fcm, $em);
-        $this->ftlsm = new FoldingTeamsLocalStorageManager($em);
-        $this->foldingTeamNumber = $fcm->getFoldingTeamNumber();
+        parent::__construct($ftlsm, $ftam, $fuam, $em);
+        $this->foldingTeamNumber = $foldingTeamNumber;
     }
 
     /**
@@ -63,10 +64,10 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
     {
         $io = $this->printCommandHeaderWelcomeAndGetConsoleStyle($input, $output);
         $io->section('Total current Folding@Home teams amount');
-        $totalTeamsAmount = AbstractBase::getPrettyFormatValueInString($this->fcm->getCurrentTotalTeams());
+        $totalTeamsAmount = AbstractBase::getPrettyFormatValueInString($this->ftam->getCurrentTotalTeams());
         $io->text($totalTeamsAmount);
         /** @var FoldingTeamModel $team */
-        $team = $this->fcm->getFoldingTeamById($input->getArgument('id'));
+        $team = $this->ftam->getFoldingTeamById($input->getArgument('id'));
         $io->section('Team report');
         $io->table(
             ['#', 'Name', 'Members', 'Score', 'Work Units', 'Rank'],

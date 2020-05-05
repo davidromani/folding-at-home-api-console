@@ -9,16 +9,6 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class FoldingUsersApiManager extends AbstractBaseFoldingApiManager
 {
-    private string $foldingApiUrl;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(string $foldingApiUrl)
-    {
-        parent::__construct($foldingApiUrl);
-    }
-
     /**
      * Get Folding@Home current total users (machines) amount | negative number on API connection error.
      */

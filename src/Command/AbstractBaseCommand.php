@@ -3,6 +3,8 @@
 namespace App\Command;
 
 use App\Manager\FoldingTeamsApiManager;
+use App\Manager\FoldingTeamsLocalStorageManager;
+use App\Manager\FoldingUsersApiManager;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,16 +15,24 @@ abstract class AbstractBaseCommand extends Command
     public const EXIT_COMMAND_SUCCESS = 0;
     public const EXIT_COMMAND_FAILURE = 1;
 
-    protected ?FoldingTeamsApiManager $fcm;
-    protected ?EntityManager          $em;
+    protected FoldingTeamsLocalStorageManager $ftlsm;
+    protected FoldingTeamsApiManager          $ftam;
+    protected FoldingUsersApiManager          $fuam;
+    protected EntityManager                   $em;
+
+    /**
+     * Methods.
+     */
 
     /**
      * Constructor.
      */
-    public function __construct(FoldingTeamsApiManager $fcm = null, ?EntityManager $em = null)
+    public function __construct(FoldingTeamsLocalStorageManager $ftlsm, FoldingTeamsApiManager $ftam, FoldingUsersApiManager $fuam, EntityManager $em)
     {
         parent::__construct();
-        $this->fcm = $fcm;
+        $this->ftlsm = $ftlsm;
+        $this->ftam = $ftam;
+        $this->fuam = $fuam;
         $this->em = $em;
     }
 
