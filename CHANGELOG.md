@@ -1,12 +1,15 @@
 Changelog
 =========
 
-#### Version 0.0.06 (WIP)
+#### Version 0.0.07 (WIP)
  * fix minor bugs
  * add testing suite
  * add JSON output format
  * add XML output format
  * add CSV output format
+
+#### Version 0.0.06 (2020-05-05)
+ * fix team member account ranks
 
 #### Version 0.0.05 (2020-05-01)
  * fix minor bugs

@@ -17,16 +17,13 @@ const FOLDING_API_URL = 'https://api.foldingathome.org/';
 
 $application = new Application();
 try {
-
-
-
     // Managers
     $entityManager = GetEntityManager();
     $foldingTeamsLocalStorageManager = new FoldingTeamsLocalStorageManager($entityManager);
     $foldingTeamsApiManager = new FoldingTeamsApiManager(FOLDING_API_URL, 0);
     $foldingUsersApiManager = new FoldingUsersApiManager(FOLDING_API_URL);
     // Commands
-    $foldingGetTeamStatsCommand = new FoldingGetTeamStatsCommand($foldingTeamsLocalStorageManager, $foldingTeamsApiManager, $foldingUsersApiManager, $entityManager, 0);
+    $foldingGetTeamStatsCommand = new FoldingGetTeamStatsCommand($foldingTeamsLocalStorageManager, $foldingTeamsApiManager, $foldingUsersApiManager, $entityManager);
     $foldingGetTeamStatsHistoryCommand = new FoldingGetTeamStatsHistoryCommand($foldingTeamsLocalStorageManager, $foldingTeamsApiManager, $foldingUsersApiManager, $entityManager);
     // Application
     $application->add($foldingGetTeamStatsCommand);

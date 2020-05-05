@@ -2,14 +2,10 @@
 
 namespace App\Command;
 
-use App\Manager\FoldingTeamsApiManager;
-use App\Manager\FoldingTeamsLocalStorageManager;
-use App\Manager\FoldingUsersApiManager;
 use App\Model\AbstractBase;
 use App\Model\FoldingTeam as FoldingTeamModel;
 use App\Model\FoldingTeamMemberAccount as FoldingTeamMemberAccountModel;
 use DateTimeImmutable;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,20 +14,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FoldingGetTeamStatsCommand extends AbstractBaseCommand
 {
     protected static $defaultName = 'folding:get:team:stats';
-    private int $foldingTeamNumber;
 
     /**
      * Methods.
      */
-
-    /**
-     * Constructor.
-     */
-    public function __construct(FoldingTeamsLocalStorageManager $ftlsm, FoldingTeamsApiManager $ftam, FoldingUsersApiManager $fuam, EntityManager $em, int $foldingTeamNumber)
-    {
-        parent::__construct($ftlsm, $ftam, $fuam, $em);
-        $this->foldingTeamNumber = $foldingTeamNumber;
-    }
 
     /**
      * Configure.
@@ -66,6 +52,9 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
         $io->section('Total current Folding@Home teams amount');
         $totalTeamsAmount = AbstractBase::getPrettyFormatValueInString($this->ftam->getCurrentTotalTeams());
         $io->text($totalTeamsAmount);
+        $io->section('Total current Folding@Home users (machines) amount');
+        $totalUsersAmount = AbstractBase::getPrettyFormatValueInString($this->fuam->getCurrentTotalUsers());
+        $io->text($totalUsersAmount);
         /** @var FoldingTeamModel $team */
         $team = $this->ftam->getFoldingTeamById($input->getArgument('id'));
         $io->section('Team report');
@@ -92,7 +81,7 @@ class FoldingGetTeamStatsCommand extends AbstractBaseCommand
                     $teamMemberAccount->getName(),
                     $teamMemberAccount->getScoreString(),
                     $teamMemberAccount->getWusString(),
-                    $teamMemberAccount->getRank() ? $teamMemberAccount->getRankString().' of '.$totalTeamsAmount : 'unknown',
+                    $teamMemberAccount->getRank() ? $teamMemberAccount->getRankString().' of '.$totalUsersAmount : 'unknown',
                 ];
             }
             $io->table(

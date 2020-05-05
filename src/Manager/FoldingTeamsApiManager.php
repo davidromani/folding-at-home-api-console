@@ -29,14 +29,6 @@ class FoldingTeamsApiManager extends AbstractBaseFoldingApiManager
     }
 
     /**
-     * @return int
-     */
-    public function getFoldingTeamNumber(): int
-    {
-        return $this->foldingTeamNumber;
-    }
-
-    /**
      * Get Folding@Home current total teams amount | negative number on API connection error.
      */
     public function getCurrentTotalTeams(): int
