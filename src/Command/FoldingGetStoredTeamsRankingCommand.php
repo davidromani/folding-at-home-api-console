@@ -30,6 +30,13 @@ class FoldingGetStoredTeamsRankingCommand extends AbstractBaseCommand
                 'Sort by team "name", "score", "WU" or "rank" options.',
                 'name'
             )
+            ->addOption(
+                'order-by',
+                'o',
+                InputOption::VALUE_REQUIRED,
+                'Order list by "asc"ending or "desc"ending option.',
+                'asc'
+            )
         ;
     }
 
@@ -41,14 +48,18 @@ class FoldingGetStoredTeamsRankingCommand extends AbstractBaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = $this->printCommandHeaderWelcomeAndGetConsoleStyle($input, $output);
+        $orderBy = 'ASC';
+        if ($input->getOption('order-by') === 'desc') {
+            $orderBy = 'DESC';
+        }
         if ($input->getOption('sorted-by') === 'score') {
-            $teams = $this->ftlsm->getAllPersistedTeamsSortedByScore();
+            $teams = $this->ftlsm->getAllPersistedTeamsSortedByScore($orderBy);
         } elseif ($input->getOption('sorted-by') === 'WU') {
-            $teams = $this->ftlsm->getAllPersistedTeamsSortedByWu();
+            $teams = $this->ftlsm->getAllPersistedTeamsSortedByWu($orderBy);
         } elseif ($input->getOption('sorted-by') === 'rank') {
-            $teams = $this->ftlsm->getAllPersistedTeamsSortedByRank();
+            $teams = $this->ftlsm->getAllPersistedTeamsSortedByRank($orderBy);
         } else {
-            $teams = $this->ftlsm->getAllPersistedTeamsSortedByName();
+            $teams = $this->ftlsm->getAllPersistedTeamsSortedByName($orderBy);
         }
         if (count($teams) > 0) {
             $rows = [];

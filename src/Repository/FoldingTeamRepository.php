@@ -27,33 +27,33 @@ class FoldingTeamRepository extends EntityRepository
     /**
      * @return FoldingTeam[]|array|null
      */
-    public function getAllTeamsSortedByName()
+    public function getAllTeamsSortedByName(string $orderBy)
     {
-        return $this->getAllTeamsSortedByAttributeAndOrder('name')->getQuery()->getResult();
+        return $this->getAllTeamsSortedByAttributeAndOrder('name', $orderBy)->getQuery()->getResult();
     }
 
     /**
      * @return FoldingTeam[]|array|null
      */
-    public function getAllTeamsSortedByRank()
+    public function getAllTeamsSortedByRank(string $orderBy)
     {
-        return $this->getAllTeamsSortedByAttributeAndOrder('rank')->getQuery()->getResult();
+        return $this->getAllTeamsSortedByAttributeAndOrder('rank', $orderBy)->getQuery()->getResult();
     }
 
     /**
      * @return FoldingTeam[]|array|null
      */
-    public function getAllTeamsSortedByWu()
+    public function getAllTeamsSortedByWu(string $orderBy)
     {
-        return $this->getAllTeamsSortedByAttributeAndOrder('wus')->getQuery()->getResult();
+        return $this->getAllTeamsSortedByAttributeAndOrder('wus', $orderBy)->getQuery()->getResult();
     }
 
     /**
      * @return FoldingTeam[]|array|null
      */
-    public function getAllTeamsSortedByScore()
+    public function getAllTeamsSortedByScore(string $orderBy)
     {
-        return $this->getAllTeamsSortedByAttributeAndOrder('score')->getQuery()->getResult();
+        return $this->getAllTeamsSortedByAttributeAndOrder('score', $orderBy)->getQuery()->getResult();
     }
 
     /**
