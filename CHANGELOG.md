@@ -7,6 +7,7 @@ Changelog
  * add JSON output format
  * add XML output format
  * add CSV output format
+ * remove unnecessary dependencies
 
 #### Version 0.0.06 (2020-05-05)
  * fix team member account ranks
