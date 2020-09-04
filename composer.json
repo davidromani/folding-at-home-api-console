@@ -14,15 +14,12 @@
     ],
     "require": {
         "php": "^7.4",
-        "beberlei/doctrineextensions": "^1.2",
         "doctrine/orm": "^2.7",
-        "gedmo/doctrine-extensions": "^2.4",
         "symfony/console": "4.4.*",
         "symfony/http-client": "4.4.*",
         "symfony/http-foundation": "4.4.*",
         "symfony/property-access": "4.4.*",
-        "symfony/serializer": "4.4.*",
-        "symfony/yaml": "4.4.*"
+        "symfony/serializer": "4.4.*"
     },
     "require-dev": {},
     "config": {

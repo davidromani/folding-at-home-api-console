@@ -1,12 +1,15 @@
 Changelog
 =========
 
-#### Version 0.0.07 (WIP)
+#### Version 0.0.08 (WIP)
  * fix minor bugs
- * add testing suite
+
+#### Version 0.0.07 (2020-09-04)
+ * Symfony 4.4.13 security update
  * add JSON output format
  * add XML output format
  * add CSV output format
+ * remove unnecessary dependencies
 
 #### Version 0.0.06 (2020-05-05)
  * fix team member account ranks

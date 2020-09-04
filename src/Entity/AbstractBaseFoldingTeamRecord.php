@@ -31,7 +31,6 @@ abstract class AbstractBaseFoldingTeamRecord
 
     /**
      * @ORM\Column(type="datetime")
-     * Gedmo\Timestampable(on="create")
      */
     protected ?DateTimeInterface $recorded;
 

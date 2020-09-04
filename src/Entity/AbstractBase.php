@@ -5,8 +5,6 @@ namespace App\Entity;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
-//use Gedmo\Mapping\Annotation as Gedmo;
-
 abstract class AbstractBase
 {
     /**
@@ -18,13 +16,11 @@ abstract class AbstractBase
 
     /**
      * @ORM\Column(type="datetime")
-     * Gedmo\Timestampable(on="create")
      */
     protected ?DateTimeInterface $created;
 
     /**
      * @ORM\Column(type="datetime")
-     * Gedmo\Timestampable(on="update")
      */
     protected ?DateTimeInterface $updated;
 
